@@ -1,0 +1,5 @@
+salida/*.pdf
+__pycache__/
+*.pyc
+.venv/
+venv/

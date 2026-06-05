@@ -1,0 +1,49 @@
+{
+  "_comentario": "Configuracion de la hoja membretada. Las coordenadas (x, y) estan en MILIMETROS medidos desde la ESQUINA SUPERIOR IZQUIERDA de la hoja. x = hacia la derecha, y = hacia abajo. Ajustamos estos numeros cuando tengamos tu PDF real para que cada dato caiga en el lugar exacto.",
+
+  "plantilla_pdf": "plantillas/membrete.pdf",
+  "tamano_hoja": "A4",
+
+  "fuente": {
+    "nombre": "Helvetica",
+    "color": "#222222"
+  },
+
+  "campos": {
+    "fecha": {
+      "etiqueta": "",
+      "x": 150,
+      "y": 55,
+      "tamano": 11,
+      "negrita": false,
+      "alineacion": "izquierda"
+    },
+    "nombre_cliente": {
+      "etiqueta": "Cliente: ",
+      "x": 25,
+      "y": 70,
+      "tamano": 12,
+      "negrita": true,
+      "alineacion": "izquierda"
+    },
+    "producto": {
+      "etiqueta": "Producto: ",
+      "x": 25,
+      "y": 90,
+      "tamano": 12,
+      "negrita": false,
+      "alineacion": "izquierda"
+    },
+    "precio": {
+      "etiqueta": "Precio: ",
+      "x": 25,
+      "y": 105,
+      "tamano": 12,
+      "negrita": true,
+      "alineacion": "izquierda"
+    }
+  },
+
+  "carpeta_salida": "salida",
+  "simbolo_moneda": "$"
+}
