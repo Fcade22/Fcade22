@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hojas Membretadas</title>
+<style>
+  :root {
+    --cafe-oscuro: #3b2a1d;
+    --cafe: #5a4231;
+    --cafe-medio: #7a5c43;
+    --caramelo: #a07a52;
+    --crema: #f6efe6;
+    --crema-input: #fbf8f3;
+    --borde: #e0d4c4;
+    --texto: #3a2e26;
+    --tenue: #978977;
+    --error: #9c4631;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .tarjeta {
+    width: 100%;
+    max-width: 440px;
+    margin-top: 28px;
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(59, 42, 29, 0.12);
+    overflow: hidden;
+  }
+  .cabecera {
+    background: var(--cafe-oscuro);
+    color: var(--crema);
+    padding: 30px 28px 26px;
+    text-align: center;
+  }
+  .cabecera h1 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .cabecera .linea {
+    width: 38px;
+    height: 2px;
+    background: var(--caramelo);
+    margin: 12px auto 0;
+    border: none;
+  }
+  form { padding: 26px 28px 30px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin: 18px 0 7px;
+    color: var(--cafe-medio);
+  }
+  form > label:first-child { margin-top: 0; }
+  input {
+    width: 100%;
+    padding: 13px 15px;
+    font-size: 16px;
+    color: var(--texto);
+    background: var(--crema-input);
+    border: 1.5px solid var(--borde);
+    border-radius: 11px;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    -webkit-appearance: none;
+  }
+  input:focus {
+    border-color: var(--caramelo);
+    box-shadow: 0 0 0 3px rgba(160, 122, 82, 0.15);
+  }
+  .ayuda { font-size: 12px; color: var(--tenue); margin: 7px 0 0; }
+  button {
+    width: 100%;
+    margin-top: 28px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--crema);
+    background: var(--cafe);
+    border: none;
+    border-radius: 11px;
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+  }
+  button:hover { background: var(--cafe-medio); }
+  button:active { transform: translateY(1px); }
+  button:disabled { opacity: .55; cursor: default; }
+  #estado {
+    margin: 16px 0 0;
+    font-size: 14px;
+    text-align: center;
+    min-height: 20px;
+    color: var(--cafe-medio);
+    font-weight: 600;
+  }
+  #estado.error { color: var(--error); }
+</style>
+</head>
+<body>
+  <div class="tarjeta">
+    <div class="cabecera">
+      <h1>Hoja Membretada</h1>
+      <hr class="linea">
+    </div>
+    <form id="formulario">
+      <label for="fecha">Fecha</label>
+      <input type="text" id="fecha" inputmode="text" autocomplete="off">
+
+      <label for="cliente">Nombre del cliente</label>
+      <input type="text" id="cliente" autocomplete="off">
+
+      <label for="producto">Producto</label>
+      <input type="text" id="producto" autocomplete="off">
+
+      <label for="precio">Precio</label>
+      <input type="text" id="precio" inputmode="decimal" autocomplete="off">
+      <p class="ayuda">Podés escribir solo el número (ej: 12500) y se formatea solo.</p>
+
+      <button type="submit" id="btn">Generar PDF</button>
+      <p id="estado"></p>
+    </form>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script>
+const { PDFDocument, StandardFonts, rgb } = PDFLib;
+const MM = 2.834645669; // milimetros a puntos
+const A4 = { ancho: 595.28, alto: 841.89 };
+
+// ---- Configuracion (debe coincidir con config.json del proyecto) ----
+const CONFIG = {
+  plantilla_pdf: "plantillas/membrete.pdf",
+  fuente: { color: "#222222" },
+  simbolo_moneda: "$",
+  campos: {
+    fecha:          { etiqueta: "",          x: 150, y: 55,  tamano: 11, negrita: false, alineacion: "izquierda" },
+    nombre_cliente: { etiqueta: "Cliente: ", x: 25,  y: 70,  tamano: 12, negrita: true,  alineacion: "izquierda" },
+    producto:       { etiqueta: "Producto: ",x: 25,  y: 90,  tamano: 12, negrita: false, alineacion: "izquierda" },
+    precio:         { etiqueta: "Precio: ",  x: 25,  y: 105, tamano: 12, negrita: true,  alineacion: "izquierda" },
+  }
+};
+
+// Cargar config.json si existe (asi el ajuste se hace en un solo lugar)
+async function cargarConfig() {
+  try {
+    const res = await fetch("config.json", { cache: "no-store" });
+    if (res.ok) {
+      const j = await res.json();
+      if (j.campos) CONFIG.campos = j.campos;
+      if (j.fuente) CONFIG.fuente = j.fuente;
+      if (j.simbolo_moneda) CONFIG.simbolo_moneda = j.simbolo_moneda;
+      if (j.plantilla_pdf) CONFIG.plantilla_pdf = j.plantilla_pdf;
+    }
+  } catch (e) { /* usar config embebida */ }
+}
+
+function hoyTexto() {
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  return `${dd}/${mm}/${d.getFullYear()}`;
+}
+
+function hexToRgb(hex) {
+  const h = (hex || "#222222").replace("#", "");
+  const n = parseInt(h.length === 3 ? h.split("").map(c => c + c).join("") : h, 16);
+  return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
+}
+
+function formatearPrecio(valor, simbolo) {
+  if (!valor) return "";
+  const texto = String(valor).trim();
+  if (!texto) return "";
+  const limpio = texto.split(simbolo).join("").trim();
+  const candidato = limpio.split(".").join("").split(",").join(".").split(" ").join("");
+  const numero = Number(candidato);
+  if (candidato === "" || isNaN(numero)) {
+    return texto.includes(simbolo) ? texto : `${simbolo} ${texto}`;
+  }
+  const opts = numero % 1 === 0
+    ? { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+    : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+  return `${simbolo} ${numero.toLocaleString("es-AR", opts)}`;
+}
+
+function nombreArchivoSeguro(t) {
+  t = (t || "hoja").trim() || "hoja";
+  t = t.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  t = t.replace(/[^\w\s.-]/g, "").replace(/\s+/g, "_");
+  return t.slice(0, 60) || "hoja";
+}
+
+function dibujarMembreteBasico(page, font, fontBold) {
+  const { width: w, height: h } = page.getSize();
+  const azul = hexToRgb("#1f3a5f");
+  page.drawRectangle({ x: 0, y: h - 28 * MM, width: w, height: 28 * MM, color: azul });
+  page.drawText("MI EMPRESA S.A.", { x: 25 * MM, y: h - 18 * MM, size: 22, font: fontBold, color: rgb(1,1,1) });
+  page.drawText("Direccion 123 - Tel: 000-0000 - mail@empresa.com",
+    { x: 25 * MM, y: h - 24 * MM, size: 9, font, color: rgb(1,1,1) });
+  page.drawRectangle({ x: 0, y: 0, width: w, height: 12 * MM, color: azul });
+  const pie = "(membrete de ejemplo - reemplazar por plantillas/membrete.pdf)";
+  const pw = font.widthOfTextAtSize(pie, 8);
+  page.drawText(pie, { x: (w - pw) / 2, y: 4.5 * MM, size: 8, font, color: rgb(1,1,1) });
+}
+
+function dibujarCampo(page, cfg, texto, font, fontBold, color) {
+  if (!texto || !String(texto).trim()) return;
+  const { height: h } = page.getSize();
+  const contenido = (cfg.etiqueta || "") + texto;
+  const f = cfg.negrita ? fontBold : font;
+  const size = cfg.tamano || 12;
+  const x = cfg.x * MM;
+  const y = h - cfg.y * MM;
+  let xFinal = x;
+  if (cfg.alineacion === "derecha") {
+    xFinal = x - f.widthOfTextAtSize(contenido, size);
+  } else if (["centro", "centrado", "center"].includes(cfg.alineacion)) {
+    xFinal = x - f.widthOfTextAtSize(contenido, size) / 2;
+  }
+  page.drawText(contenido, { x: xFinal, y, size, font: f, color });
+}
+
+async function generarPDF(datos) {
+  let pdfDoc, page, usarPlantilla = false;
+
+  try {
+    const res = await fetch(CONFIG.plantilla_pdf, { cache: "no-store" });
+    if (res.ok) {
+      const ct = res.headers.get("content-type") || "";
+      const bytes = await res.arrayBuffer();
+      // evitar cargar una pagina de error 404 como si fuera PDF
+      if (bytes.byteLength > 100 && !ct.includes("text/html")) {
+        pdfDoc = await PDFDocument.load(bytes);
+        page = pdfDoc.getPage(0);
+        usarPlantilla = true;
+      }
+    }
+  } catch (e) { /* sin plantilla, usar membrete basico */ }
+
+  if (!usarPlantilla) {
+    pdfDoc = await PDFDocument.create();
+    page = pdfDoc.addPage([A4.ancho, A4.alto]);
+  }
+
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const color = hexToRgb(CONFIG.fuente.color);
+
+  if (!usarPlantilla) dibujarMembreteBasico(page, font, fontBold);
+
+  const c = CONFIG.campos;
+  if (c.fecha)          dibujarCampo(page, c.fecha, datos.fecha, font, fontBold, color);
+  if (c.nombre_cliente) dibujarCampo(page, c.nombre_cliente, datos.cliente, font, fontBold, color);
+  if (c.producto)       dibujarCampo(page, c.producto, datos.producto, font, fontBold, color);
+  if (c.precio)         dibujarCampo(page, c.precio, datos.precio, font, fontBold, color);
+
+  return await pdfDoc.save();
+}
+
+function descargar(bytes, nombre) {
+  const blob = new Blob([bytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nombre;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+// ---- Arranque ----
+document.getElementById("fecha").value = hoyTexto();
+cargarConfig();
+
+document.getElementById("formulario").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const estado = document.getElementById("estado");
+  const btn = document.getElementById("btn");
+  estado.classList.remove("error");
+
+  const cliente = document.getElementById("cliente").value.trim();
+  const producto = document.getElementById("producto").value.trim();
+  if (!cliente) { estado.classList.add("error"); estado.textContent = "Ingresá el nombre del cliente."; return; }
+  if (!producto) { estado.classList.add("error"); estado.textContent = "Ingresá el producto."; return; }
+
+  const datos = {
+    fecha: document.getElementById("fecha").value.trim() || hoyTexto(),
+    cliente,
+    producto,
+    precio: formatearPrecio(document.getElementById("precio").value, CONFIG.simbolo_moneda),
+  };
+
+  btn.disabled = true;
+  estado.textContent = "Generando...";
+  estado.style.color = "#777";
+
+  try {
+    const bytes = await generarPDF(datos);
+    const fecha = new Date();
+    const yyyymmdd = `${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,"0")}${String(fecha.getDate()).padStart(2,"0")}`;
+    descargar(bytes, `hoja_${nombreArchivoSeguro(cliente)}_${yyyymmdd}.pdf`);
+    estado.style.color = "";
+    estado.textContent = "¡Listo! PDF descargado.";
+  } catch (err) {
+    estado.classList.add("error");
+    estado.textContent = "Error al generar: " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
