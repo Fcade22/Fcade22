@@ -1,2 +1,0 @@
-Pone aca tu PDF membretado con el nombre: membrete.pdf
-El programa lo usa como fondo y estampa encima los datos.
