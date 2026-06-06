@@ -1,5 +1,6 @@
-// Service worker: hace que la app funcione sin internet (cachea todo lo necesario).
-const CACHE = "membrete-sl-v2";
+// Service worker: la app funciona sin internet, pero cuando HAY internet
+// siempre trae la version nueva (asi los cambios se ven al instante).
+const CACHE = "membrete-sl-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -27,17 +28,40 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
-  e.respondWith(
-    caches.match(e.request).then((r) =>
-      r ||
-      fetch(e.request)
+  const req = e.request;
+  if (req.method !== "GET") return;
+
+  // El HTML y la config: primero internet (para ver cambios), cache como respaldo offline.
+  const esDocumento =
+    req.mode === "navigate" ||
+    req.destination === "document" ||
+    req.url.endsWith(".html") ||
+    req.url.endsWith("config.json");
+
+  if (esDocumento) {
+    e.respondWith(
+      fetch(req)
         .then((resp) => {
           const copy = resp.clone();
-          caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
+          caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
           return resp;
         })
-        .catch(() => caches.match("./index.html"))
+        .catch(() => caches.match(req).then((r) => r || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  // El resto (libreria PDF, iconos, membrete): primero cache (no cambian seguido).
+  e.respondWith(
+    caches.match(req).then((r) =>
+      r ||
+      fetch(req)
+        .then((resp) => {
+          const copy = resp.clone();
+          caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+          return resp;
+        })
+        .catch(() => undefined)
     )
   );
 });
