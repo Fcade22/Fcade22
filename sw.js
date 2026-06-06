@@ -1,5 +1,5 @@
 // Service worker: hace que la app funcione sin internet (cachea todo lo necesario).
-const CACHE = "membrete-sl-v1";
+const CACHE = "membrete-sl-v2";
 const ASSETS = [
   "./",
   "./index.html",

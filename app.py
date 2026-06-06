@@ -47,11 +47,12 @@ class App:
         self.fecha.pack(fill="x", pady=(2, 12))
 
         # Productos
-        ttk.Label(cont, text="Productos y precios").pack(anchor="w")
+        ttk.Label(cont, text="Productos · cantidad · precio unitario").pack(anchor="w")
         cabecera = ttk.Frame(cont)
         cabecera.pack(fill="x", pady=(2, 2))
         ttk.Label(cabecera, text="Producto", foreground="#777").pack(side="left")
-        ttk.Label(cabecera, text="Precio", foreground="#777").pack(side="right", padx=(0, 40))
+        ttk.Label(cabecera, text="P. unit.", foreground="#777").pack(side="right", padx=(0, 40))
+        ttk.Label(cabecera, text="Cant.", foreground="#777").pack(side="right", padx=(0, 70))
 
         self.filas_cont = ttk.Frame(cont)
         self.filas_cont.pack(fill="x")
@@ -76,9 +77,11 @@ class App:
         fila.pack(fill="x", pady=3)
         prod = ttk.Entry(fila, font=("Helvetica", 11))
         prod.pack(side="left", fill="x", expand=True)
+        cantidad = ttk.Entry(fila, width=6, font=("Helvetica", 11), justify="center")
+        cantidad.pack(side="left", padx=(8, 4))
         precio = ttk.Entry(fila, width=12, font=("Helvetica", 11))
-        precio.pack(side="left", padx=(8, 8))
-        registro = {"frame": fila, "producto": prod, "precio": precio}
+        precio.pack(side="left", padx=(4, 8))
+        registro = {"frame": fila, "producto": prod, "cantidad": cantidad, "precio": precio}
 
         def quitar():
             fila.destroy()
@@ -95,8 +98,9 @@ class App:
         for f in self.filas:
             nombre = f["producto"].get().strip()
             precio = f["precio"].get().strip()
+            cantidad = f["cantidad"].get().strip()
             if nombre or precio:
-                productos.append({"producto": nombre, "precio": precio})
+                productos.append({"producto": nombre, "cantidad": cantidad, "precio": precio})
         return productos
 
     def generar(self):

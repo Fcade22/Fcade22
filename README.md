@@ -49,8 +49,11 @@ Todo lo visual del PDF se controla en `config.json` (lo comparten la web y la ap
 
 - `fecha` / `cliente`: posición (en milímetros desde la esquina superior izquierda),
   tamaño, negrita, alineación y etiqueta.
-- `tabla`: posición de la lista de productos, alto de cada fila, encabezados
-  ("PRODUCTO" / "PRECIO") y si muestra el total.
+- `tabla`: posición de las columnas (producto, cantidad, precio unitario,
+  importe), alto de cada fila, encabezados, si muestra el total y la `nota`
+  al pie (ej: "LOS PRECIOS NO INCLUYEN EL IVA").
+
+Cada renglón calcula el importe (cantidad × precio unitario) y el total los suma.
 
 El membrete original es `plantillas/membrete.pdf`. Si lo cambiás, puede que haya
 que reajustar las coordenadas.

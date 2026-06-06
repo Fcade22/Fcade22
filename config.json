@@ -30,15 +30,20 @@
 
   "tabla": {
     "x_producto": 25,
-    "x_precio": 185,
+    "x_cantidad": 112,
+    "x_unitario": 152,
+    "x_importe": 185,
     "y_encabezado": 80,
     "alto_fila": 9,
-    "tamano": 11,
-    "tamano_encabezado": 11,
+    "tamano": 10,
+    "tamano_encabezado": 9,
     "encabezado_producto": "PRODUCTO",
-    "encabezado_precio": "PRECIO",
+    "encabezado_cantidad": "CANT.",
+    "encabezado_unitario": "P. UNITARIO",
+    "encabezado_importe": "IMPORTE",
     "mostrar_total": true,
-    "etiqueta_total": "TOTAL"
+    "etiqueta_total": "TOTAL",
+    "nota": "LOS PRECIOS NO INCLUYEN EL IVA"
   },
 
   "carpeta_salida": "salida"

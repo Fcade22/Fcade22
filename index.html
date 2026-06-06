@@ -102,7 +102,9 @@
     margin-bottom: 9px;
   }
   .fila .prod { flex: 1; min-width: 0; }
-  .fila .precio { width: 118px; flex: none; }
+  .fila .cant { width: 52px; flex: none; text-align: center; }
+  .fila .precio { width: 96px; flex: none; }
+  .fila input { padding: 12px 10px; }
   .quitar {
     flex: none;
     width: 34px;
@@ -189,7 +191,7 @@
         <input type="text" id="fecha" inputmode="text">
       </div>
 
-      <label>Productos y precios</label>
+      <label>Productos · cantidad · precio unitario</label>
       <div class="seccion-productos">
         <div id="productos"></div>
         <button type="button" class="agregar" id="btnAgregar">+ Agregar producto</button>
@@ -220,10 +222,12 @@ const CONFIG = {
   fecha:   { etiqueta: "Córdoba, ", x: 185, y: 56, tamano: 11, negrita: false, alineacion: "derecha" },
   cliente: { etiqueta: "Cliente: ", x: 25, y: 60, tamano: 13, negrita: true, alineacion: "izquierda" },
   tabla: {
-    x_producto: 25, x_precio: 185, y_encabezado: 80, alto_fila: 9,
-    tamano: 11, tamano_encabezado: 11,
-    encabezado_producto: "PRODUCTO", encabezado_precio: "PRECIO",
-    mostrar_total: true, etiqueta_total: "TOTAL"
+    x_producto: 25, x_cantidad: 112, x_unitario: 152, x_importe: 185,
+    y_encabezado: 80, alto_fila: 9, tamano: 10, tamano_encabezado: 9,
+    encabezado_producto: "PRODUCTO", encabezado_cantidad: "CANT.",
+    encabezado_unitario: "P. UNITARIO", encabezado_importe: "IMPORTE",
+    mostrar_total: true, etiqueta_total: "TOTAL",
+    nota: "LOS PRECIOS NO INCLUYEN EL IVA"
   }
 };
 
@@ -282,15 +286,26 @@ function nombreArchivoSeguro(t) {
 // ---------- filas de productos (interfaz) ----------
 const cont = document.getElementById("productos");
 
-function agregarFila(producto = "", precio = "") {
+function cantidadNum(valor) {
+  const n = parseNumero(valor);
+  return (n == null || n <= 0) ? 1 : n;
+}
+function cantidadTexto(n) {
+  return Number.isInteger(n) ? String(n) : String(n).replace(".", ",");
+}
+
+function agregarFila(producto = "", cantidad = "", precio = "") {
   const fila = document.createElement("div");
   fila.className = "fila";
   fila.innerHTML = `
     <input type="text" class="prod" placeholder="Producto">
-    <input type="text" class="precio" inputmode="decimal" placeholder="Precio">
+    <input type="text" class="cant" inputmode="numeric" placeholder="Cant.">
+    <input type="text" class="precio" inputmode="decimal" placeholder="P. unit.">
     <button type="button" class="quitar" title="Quitar">&times;</button>`;
   fila.querySelector(".prod").value = producto;
+  fila.querySelector(".cant").value = cantidad;
   fila.querySelector(".precio").value = precio;
+  fila.querySelector(".cant").addEventListener("input", actualizarTotal);
   fila.querySelector(".precio").addEventListener("input", actualizarTotal);
   fila.querySelector(".quitar").addEventListener("click", () => {
     fila.remove();
@@ -303,13 +318,17 @@ function agregarFila(producto = "", precio = "") {
 function leerProductos() {
   return Array.from(cont.querySelectorAll(".fila")).map(f => ({
     producto: f.querySelector(".prod").value.trim(),
+    cantidad: f.querySelector(".cant").value.trim(),
     precio: f.querySelector(".precio").value.trim()
   })).filter(p => p.producto || p.precio);
 }
 
 function actualizarTotal() {
   let total = 0;
-  leerProductos().forEach(p => { const n = parseNumero(p.precio); if (n != null) total += n; });
+  leerProductos().forEach(p => {
+    const n = parseNumero(p.precio);
+    if (n != null) total += n * cantidadNum(p.cantidad);
+  });
   document.getElementById("total").textContent = formatearNumero(total, CONFIG.simbolo_moneda);
 }
 
@@ -342,23 +361,37 @@ function dibujarContenido(page, font, fontBold, datos) {
 
   const t = CONFIG.tabla;
   texto(page, t.encabezado_producto, t.x_producto, t.y_encabezado, t.tamano_encabezado, fontBold, color, "izquierda", alto);
-  texto(page, t.encabezado_precio, t.x_precio, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
-  linea(page, t.x_producto, t.x_precio, t.y_encabezado + 2, color, alto, 0.9);
+  texto(page, t.encabezado_cantidad, t.x_cantidad, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
+  texto(page, t.encabezado_unitario, t.x_unitario, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
+  texto(page, t.encabezado_importe, t.x_importe, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
+  linea(page, t.x_producto, t.x_importe, t.y_encabezado + 2, color, alto, 0.9);
 
   let total = 0, hayTotal = false;
   let yFila = t.y_encabezado + t.alto_fila;
   datos.productos.forEach(p => {
+    const cant = cantidadNum(p.cantidad);
     texto(page, p.producto, t.x_producto, yFila, t.tamano, font, color, "izquierda", alto);
-    texto(page, formatearPrecio(p.precio, simbolo), t.x_precio, yFila, t.tamano, font, color, "derecha", alto);
+    texto(page, cantidadTexto(cant), t.x_cantidad, yFila, t.tamano, font, color, "derecha", alto);
+    texto(page, formatearPrecio(p.precio, simbolo), t.x_unitario, yFila, t.tamano, font, color, "derecha", alto);
     const n = parseNumero(p.precio);
-    if (n != null) { total += n; hayTotal = true; }
+    if (n != null) {
+      const importe = n * cant;
+      texto(page, formatearNumero(importe, simbolo), t.x_importe, yFila, t.tamano, font, color, "derecha", alto);
+      total += importe;
+      hayTotal = true;
+    }
     yFila += t.alto_fila;
   });
 
   if (t.mostrar_total && hayTotal) {
-    linea(page, t.x_producto, t.x_precio, yFila - t.alto_fila + 2.5, color, alto, 0.9);
-    texto(page, t.etiqueta_total, t.x_producto, yFila + 1, t.tamano, fontBold, color, "izquierda", alto);
-    texto(page, formatearNumero(total, simbolo), t.x_precio, yFila + 1, t.tamano, fontBold, color, "derecha", alto);
+    linea(page, t.x_producto, t.x_importe, yFila - t.alto_fila + 2.5, color, alto, 0.9);
+    texto(page, t.etiqueta_total, t.x_producto, yFila + 1, t.tamano + 1, fontBold, color, "izquierda", alto);
+    texto(page, formatearNumero(total, simbolo), t.x_importe, yFila + 1, t.tamano + 1, fontBold, color, "derecha", alto);
+    yFila = yFila + 1 + t.alto_fila;
+  }
+
+  if (t.nota && datos.productos.length) {
+    texto(page, t.nota, t.x_producto, yFila + 2, 9, fontBold, color, "izquierda", alto);
   }
 }
 
