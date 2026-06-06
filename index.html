@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hojas Membretadas · SKIN LEATHER</title>
+<meta name="theme-color" content="#3b2a1d">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Membrete SL">
 <style>
   :root {
     --cafe-oscuro: #3b2a1d;
@@ -197,7 +205,7 @@
     </form>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="pdf-lib.min.js"></script>
 <script>
 // La libreria PDFLib se referencia recien al generar el PDF, asi el formulario
 // (fecha, filas de productos, total) funciona aunque el CDN tarde o falle.
@@ -429,6 +437,13 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
     btn.disabled = false;
   }
 });
+
+// Registrar el service worker para que la app funcione sin internet.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
 </script>
 </body>
 </html>

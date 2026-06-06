@@ -7,18 +7,23 @@ calculado.
 
 Hay dos formas de usarlo:
 
-## 1) Página web (para el celular) — recomendado
+## 1) App web instalable (para el celular) — recomendado
 
-Es una página que se abre con un link, ideal para usar desde el celular. Tu papá
-(o cualquiera) abre el link, completa el cuadro y descarga el PDF. No instala nada.
+Es una página que se abre con un link y se puede **instalar como app** en el
+celular (ícono en la pantalla de inicio). Funciona **sin internet** una vez
+abierta la primera vez. Ideal para pasársela a otra persona: solo mandás el link.
 
-- Archivo: `index.html`
-- Hosting gratis con **GitHub Pages** (ya hay un workflow que lo publica solo).
-- Para activarlo una sola vez: en GitHub → **Settings → Pages → Source: "GitHub Actions"**.
-- Link: `https://fcade22.github.io/fcade22/`
+- Link: `https://fcade22.github.io/Fcade22/`
+- Hosting gratis con **GitHub Pages** (el workflow la publica sola en cada cambio).
+
+**Instalarla como app:**
+- **Android (Chrome):** abrir el link → menú (⋮) → "Agregar a pantalla principal"
+  / "Instalar app".
+- **iPhone (Safari):** abrir el link → botón Compartir → "Agregar a inicio".
 
 Funciona entero en el navegador (no necesita servidor ni claves de API) y arma el
-PDF usando `plantillas/membrete.pdf` como fondo.
+PDF usando `plantillas/membrete.pdf` como fondo. La librería de PDF
+(`pdf-lib.min.js`) está incluida en el proyecto, así no depende de internet.
 
 ## 2) App de escritorio (para la computadora)
 
