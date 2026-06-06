@@ -1,5 +1,5 @@
 {
-  "_comentario": "Configuracion de la hoja membretada SKIN LEATHER. Las coordenadas (x, y) estan en MILIMETROS medidos desde la ESQUINA SUPERIOR IZQUIERDA de la hoja A4 (210 x 297 mm). x = hacia la derecha, y = hacia abajo. El encabezado ocupa los primeros ~43 mm y el pie arranca a ~240 mm.",
+  "_comentario": "Configuracion de la hoja membretada SKIN LEATHER. Coordenadas en MILIMETROS desde la esquina superior izquierda de la hoja A4 (210 x 297 mm). El encabezado ocupa ~43 mm y el pie arranca a ~240 mm. La seccion 'tabla' controla la lista de productos con su precio.",
 
   "plantilla_pdf": "plantillas/membrete.pdf",
   "tamano_hoja": "A4",
@@ -8,42 +8,38 @@
     "nombre": "Helvetica",
     "color": "#3b2a1d"
   },
+  "simbolo_moneda": "$",
 
-  "campos": {
-    "fecha": {
-      "etiqueta": "Córdoba, ",
-      "x": 185,
-      "y": 56,
-      "tamano": 11,
-      "negrita": false,
-      "alineacion": "derecha"
-    },
-    "nombre_cliente": {
-      "etiqueta": "Cliente: ",
-      "x": 25,
-      "y": 78,
-      "tamano": 13,
-      "negrita": true,
-      "alineacion": "izquierda"
-    },
-    "producto": {
-      "etiqueta": "Producto: ",
-      "x": 25,
-      "y": 98,
-      "tamano": 12,
-      "negrita": false,
-      "alineacion": "izquierda"
-    },
-    "precio": {
-      "etiqueta": "Precio: ",
-      "x": 25,
-      "y": 113,
-      "tamano": 13,
-      "negrita": true,
-      "alineacion": "izquierda"
-    }
+  "fecha": {
+    "etiqueta": "Córdoba, ",
+    "x": 185,
+    "y": 56,
+    "tamano": 11,
+    "negrita": false,
+    "alineacion": "derecha"
   },
 
-  "carpeta_salida": "salida",
-  "simbolo_moneda": "$"
+  "cliente": {
+    "etiqueta": "Cliente: ",
+    "x": 25,
+    "y": 60,
+    "tamano": 13,
+    "negrita": true,
+    "alineacion": "izquierda"
+  },
+
+  "tabla": {
+    "x_producto": 25,
+    "x_precio": 185,
+    "y_encabezado": 80,
+    "alto_fila": 9,
+    "tamano": 11,
+    "tamano_encabezado": 11,
+    "encabezado_producto": "PRODUCTO",
+    "encabezado_precio": "PRECIO",
+    "mostrar_total": true,
+    "etiqueta_total": "TOTAL"
+  },
+
+  "carpeta_salida": "salida"
 }

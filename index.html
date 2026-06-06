@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hojas Membretadas</title>
+<title>Hojas Membretadas · SKIN LEATHER</title>
 <style>
   :root {
     --cafe-oscuro: #3b2a1d;
     --cafe: #5a4231;
     --cafe-medio: #7a5c43;
     --caramelo: #a07a52;
-    --crema: #f6efe6;
+    --crema: #f3ece2;
     --crema-input: #fbf8f3;
-    --borde: #e0d4c4;
+    --borde: #e2d6c5;
     --texto: #3a2e26;
     --tenue: #978977;
     --error: #9c4631;
@@ -31,18 +31,18 @@
   }
   .tarjeta {
     width: 100%;
-    max-width: 440px;
-    margin-top: 28px;
+    max-width: 460px;
+    margin-top: 26px;
     background: #fff;
     border: 1px solid var(--borde);
     border-radius: 18px;
-    box-shadow: 0 14px 40px rgba(59, 42, 29, 0.12);
+    box-shadow: 0 14px 40px rgba(59, 42, 29, 0.13);
     overflow: hidden;
   }
   .cabecera {
     background: var(--cafe-oscuro);
     color: var(--crema);
-    padding: 30px 28px 26px;
+    padding: 28px 28px 24px;
     text-align: center;
   }
   .cabecera h1 {
@@ -52,24 +52,24 @@
     font-weight: 600;
     letter-spacing: 0.3px;
   }
-  .cabecera .linea {
-    width: 38px;
-    height: 2px;
-    background: var(--caramelo);
-    margin: 12px auto 0;
-    border: none;
+  .cabecera .marca {
+    margin: 7px 0 0;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--caramelo);
   }
-  form { padding: 26px 28px 30px; }
+  form { padding: 24px 28px 30px; }
   label {
     display: block;
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    margin: 18px 0 7px;
+    margin: 0 0 7px;
     color: var(--cafe-medio);
   }
-  form > label:first-child { margin-top: 0; }
+  .campo { margin-bottom: 18px; }
   input {
     width: 100%;
     padding: 13px 15px;
@@ -86,10 +86,59 @@
     border-color: var(--caramelo);
     box-shadow: 0 0 0 3px rgba(160, 122, 82, 0.15);
   }
-  .ayuda { font-size: 12px; color: var(--tenue); margin: 7px 0 0; }
-  button {
+  .seccion-productos { margin-bottom: 14px; }
+  .fila {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 9px;
+  }
+  .fila .prod { flex: 1; min-width: 0; }
+  .fila .precio { width: 118px; flex: none; }
+  .quitar {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 9px;
+    background: var(--crema);
+    color: var(--cafe-medio);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .quitar:hover { background: #f0e3d3; color: var(--error); }
+  .agregar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cafe);
+    background: transparent;
+    border: 1.5px dashed var(--borde);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .agregar:hover { border-color: var(--caramelo); background: var(--crema-input); }
+  .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 18px 0 4px;
+    padding-top: 14px;
+    border-top: 1px solid var(--borde);
+    font-size: 15px;
+  }
+  .total .etiqueta { color: var(--cafe-medio); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; font-size: 12px; }
+  .total .monto { font-size: 18px; font-weight: 700; color: var(--cafe-oscuro); }
+  .generar {
     width: 100%;
-    margin-top: 28px;
+    margin-top: 20px;
     padding: 16px;
     font-size: 16px;
     font-weight: 600;
@@ -101,11 +150,11 @@
     cursor: pointer;
     transition: background .15s, transform .05s;
   }
-  button:hover { background: var(--cafe-medio); }
-  button:active { transform: translateY(1px); }
-  button:disabled { opacity: .55; cursor: default; }
+  .generar:hover { background: var(--cafe-medio); }
+  .generar:active { transform: translateY(1px); }
+  .generar:disabled { opacity: .55; cursor: default; }
   #estado {
-    margin: 16px 0 0;
+    margin: 15px 0 0;
     font-size: 14px;
     text-align: center;
     min-height: 20px;
@@ -119,160 +168,218 @@
   <div class="tarjeta">
     <div class="cabecera">
       <h1>Hoja Membretada</h1>
-      <hr class="linea">
+      <p class="marca">Skin Leather · Taller de Cuero</p>
     </div>
-    <form id="formulario">
-      <label for="fecha">Fecha</label>
-      <input type="text" id="fecha" inputmode="text" autocomplete="off">
+    <form id="formulario" autocomplete="off">
+      <div class="campo">
+        <label for="cliente">Nombre del cliente</label>
+        <input type="text" id="cliente">
+      </div>
 
-      <label for="cliente">Nombre del cliente</label>
-      <input type="text" id="cliente" autocomplete="off">
+      <div class="campo">
+        <label for="fecha">Fecha</label>
+        <input type="text" id="fecha" inputmode="text">
+      </div>
 
-      <label for="producto">Producto</label>
-      <input type="text" id="producto" autocomplete="off">
+      <label>Productos y precios</label>
+      <div class="seccion-productos">
+        <div id="productos"></div>
+        <button type="button" class="agregar" id="btnAgregar">+ Agregar producto</button>
+      </div>
 
-      <label for="precio">Precio</label>
-      <input type="text" id="precio" inputmode="decimal" autocomplete="off">
-      <p class="ayuda">Podés escribir solo el número (ej: 12500) y se formatea solo.</p>
+      <div class="total">
+        <span class="etiqueta">Total</span>
+        <span class="monto" id="total">$ 0</span>
+      </div>
 
-      <button type="submit" id="btn">Generar PDF</button>
+      <button type="submit" class="generar" id="btnGenerar">Generar PDF</button>
       <p id="estado"></p>
     </form>
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script>
-const { PDFDocument, StandardFonts, rgb } = PDFLib;
+// La libreria PDFLib se referencia recien al generar el PDF, asi el formulario
+// (fecha, filas de productos, total) funciona aunque el CDN tarde o falle.
 const MM = 2.834645669; // milimetros a puntos
 const A4 = { ancho: 595.28, alto: 841.89 };
 
-// ---- Configuracion (debe coincidir con config.json del proyecto) ----
+// ---- Configuracion (debe coincidir con config.json) ----
 const CONFIG = {
   plantilla_pdf: "plantillas/membrete.pdf",
   fuente: { color: "#3b2a1d" },
   simbolo_moneda: "$",
-  campos: {
-    fecha:          { etiqueta: "Córdoba, ", x: 185, y: 56,  tamano: 11, negrita: false, alineacion: "derecha" },
-    nombre_cliente: { etiqueta: "Cliente: ",  x: 25,  y: 78,  tamano: 13, negrita: true,  alineacion: "izquierda" },
-    producto:       { etiqueta: "Producto: ", x: 25,  y: 98,  tamano: 12, negrita: false, alineacion: "izquierda" },
-    precio:         { etiqueta: "Precio: ",   x: 25,  y: 113, tamano: 13, negrita: true,  alineacion: "izquierda" },
+  fecha:   { etiqueta: "Córdoba, ", x: 185, y: 56, tamano: 11, negrita: false, alineacion: "derecha" },
+  cliente: { etiqueta: "Cliente: ", x: 25, y: 60, tamano: 13, negrita: true, alineacion: "izquierda" },
+  tabla: {
+    x_producto: 25, x_precio: 185, y_encabezado: 80, alto_fila: 9,
+    tamano: 11, tamano_encabezado: 11,
+    encabezado_producto: "PRODUCTO", encabezado_precio: "PRECIO",
+    mostrar_total: true, etiqueta_total: "TOTAL"
   }
 };
 
-// Cargar config.json si existe (asi el ajuste se hace en un solo lugar)
 async function cargarConfig() {
   try {
     const res = await fetch("config.json", { cache: "no-store" });
     if (res.ok) {
       const j = await res.json();
-      if (j.campos) CONFIG.campos = j.campos;
-      if (j.fuente) CONFIG.fuente = j.fuente;
+      ["fecha", "cliente", "tabla", "fuente"].forEach(k => { if (j[k]) CONFIG[k] = j[k]; });
       if (j.simbolo_moneda) CONFIG.simbolo_moneda = j.simbolo_moneda;
       if (j.plantilla_pdf) CONFIG.plantilla_pdf = j.plantilla_pdf;
     }
   } catch (e) { /* usar config embebida */ }
 }
 
-function hoyTexto() {
-  const d = new Date();
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mm}/${d.getFullYear()}`;
-}
-
-function hexToRgb(hex) {
-  const h = (hex || "#222222").replace("#", "");
-  const n = parseInt(h.length === 3 ? h.split("").map(c => c + c).join("") : h, 16);
-  return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
-}
-
-function formatearPrecio(valor, simbolo) {
-  if (!valor) return "";
+// ---------- utilidades de numero ----------
+function parseNumero(valor) {
+  if (valor == null) return null;
   const texto = String(valor).trim();
-  if (!texto) return "";
-  const limpio = texto.split(simbolo).join("").trim();
-  const candidato = limpio.split(".").join("").split(",").join(".").split(" ").join("");
-  const numero = Number(candidato);
-  if (candidato === "" || isNaN(numero)) {
-    return texto.includes(simbolo) ? texto : `${simbolo} ${texto}`;
-  }
-  const opts = numero % 1 === 0
+  if (!texto) return null;
+  const limpio = texto.replace(/[^\d,.\-]/g, "");
+  const candidato = limpio.replace(/\./g, "").replace(/,/g, ".");
+  const n = Number(candidato);
+  return (candidato === "" || isNaN(n)) ? null : n;
+}
+function formatearNumero(n, simbolo) {
+  const opts = n % 1 === 0
     ? { minimumFractionDigits: 0, maximumFractionDigits: 0 }
     : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-  return `${simbolo} ${numero.toLocaleString("es-AR", opts)}`;
+  return `${simbolo} ${n.toLocaleString("es-AR", opts)}`;
 }
-
+function formatearPrecio(valor, simbolo) {
+  const n = parseNumero(valor);
+  if (n == null) {
+    const t = String(valor || "").trim();
+    if (!t) return "";
+    return t.includes(simbolo) ? t : `${simbolo} ${t}`;
+  }
+  return formatearNumero(n, simbolo);
+}
+function hoyTexto() {
+  const d = new Date();
+  return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
+}
+function hexToRgb(hex) {
+  const h = (hex || "#3b2a1d").replace("#", "");
+  const n = parseInt(h.length === 3 ? h.split("").map(c => c + c).join("") : h, 16);
+  return PDFLib.rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
+}
 function nombreArchivoSeguro(t) {
   t = (t || "hoja").trim() || "hoja";
   t = t.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  t = t.replace(/[^\w\s.-]/g, "").replace(/\s+/g, "_");
-  return t.slice(0, 60) || "hoja";
+  return (t.replace(/[^\w\s.-]/g, "").replace(/\s+/g, "_").slice(0, 60)) || "hoja";
 }
 
-function dibujarMembreteBasico(page, font, fontBold) {
-  const { width: w, height: h } = page.getSize();
-  const azul = hexToRgb("#1f3a5f");
-  page.drawRectangle({ x: 0, y: h - 28 * MM, width: w, height: 28 * MM, color: azul });
-  page.drawText("MI EMPRESA S.A.", { x: 25 * MM, y: h - 18 * MM, size: 22, font: fontBold, color: rgb(1,1,1) });
-  page.drawText("Direccion 123 - Tel: 000-0000 - mail@empresa.com",
-    { x: 25 * MM, y: h - 24 * MM, size: 9, font, color: rgb(1,1,1) });
-  page.drawRectangle({ x: 0, y: 0, width: w, height: 12 * MM, color: azul });
-  const pie = "(membrete de ejemplo - reemplazar por plantillas/membrete.pdf)";
-  const pw = font.widthOfTextAtSize(pie, 8);
-  page.drawText(pie, { x: (w - pw) / 2, y: 4.5 * MM, size: 8, font, color: rgb(1,1,1) });
+// ---------- filas de productos (interfaz) ----------
+const cont = document.getElementById("productos");
+
+function agregarFila(producto = "", precio = "") {
+  const fila = document.createElement("div");
+  fila.className = "fila";
+  fila.innerHTML = `
+    <input type="text" class="prod" placeholder="Producto">
+    <input type="text" class="precio" inputmode="decimal" placeholder="Precio">
+    <button type="button" class="quitar" title="Quitar">&times;</button>`;
+  fila.querySelector(".prod").value = producto;
+  fila.querySelector(".precio").value = precio;
+  fila.querySelector(".precio").addEventListener("input", actualizarTotal);
+  fila.querySelector(".quitar").addEventListener("click", () => {
+    fila.remove();
+    if (!cont.querySelector(".fila")) agregarFila();
+    actualizarTotal();
+  });
+  cont.appendChild(fila);
 }
 
-function dibujarCampo(page, cfg, texto, font, fontBold, color) {
-  if (!texto || !String(texto).trim()) return;
-  const { height: h } = page.getSize();
-  const contenido = (cfg.etiqueta || "") + texto;
-  const f = cfg.negrita ? fontBold : font;
-  const size = cfg.tamano || 12;
-  const x = cfg.x * MM;
-  const y = h - cfg.y * MM;
-  let xFinal = x;
-  if (cfg.alineacion === "derecha") {
-    xFinal = x - f.widthOfTextAtSize(contenido, size);
-  } else if (["centro", "centrado", "center"].includes(cfg.alineacion)) {
-    xFinal = x - f.widthOfTextAtSize(contenido, size) / 2;
+function leerProductos() {
+  return Array.from(cont.querySelectorAll(".fila")).map(f => ({
+    producto: f.querySelector(".prod").value.trim(),
+    precio: f.querySelector(".precio").value.trim()
+  })).filter(p => p.producto || p.precio);
+}
+
+function actualizarTotal() {
+  let total = 0;
+  leerProductos().forEach(p => { const n = parseNumero(p.precio); if (n != null) total += n; });
+  document.getElementById("total").textContent = formatearNumero(total, CONFIG.simbolo_moneda);
+}
+
+// ---------- dibujo del PDF ----------
+function texto(page, t, xmm, ymm, size, font, color, align, alto) {
+  if (t == null || t === "") return;
+  const s = String(t);
+  let x = xmm * MM;
+  const y = alto - ymm * MM;
+  if (align === "derecha") x -= font.widthOfTextAtSize(s, size);
+  else if (align === "centro") x -= font.widthOfTextAtSize(s, size) / 2;
+  page.drawText(s, { x, y, size, font, color });
+}
+function linea(page, x1mm, x2mm, ymm, color, alto, grosor = 0.7) {
+  const y = alto - ymm * MM;
+  page.drawLine({ start: { x: x1mm * MM, y }, end: { x: x2mm * MM, y }, thickness: grosor, color });
+}
+
+function dibujarContenido(page, font, fontBold, datos) {
+  const { height: alto } = page.getSize();
+  const color = hexToRgb(CONFIG.fuente.color);
+  const simbolo = CONFIG.simbolo_moneda;
+
+  const f = CONFIG.fecha;
+  texto(page, (f.etiqueta || "") + datos.fecha, f.x, f.y, f.tamano, f.negrita ? fontBold : font, color, f.alineacion, alto);
+
+  const cl = CONFIG.cliente;
+  if (datos.cliente)
+    texto(page, (cl.etiqueta || "") + datos.cliente, cl.x, cl.y, cl.tamano, cl.negrita ? fontBold : font, color, cl.alineacion, alto);
+
+  const t = CONFIG.tabla;
+  texto(page, t.encabezado_producto, t.x_producto, t.y_encabezado, t.tamano_encabezado, fontBold, color, "izquierda", alto);
+  texto(page, t.encabezado_precio, t.x_precio, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
+  linea(page, t.x_producto, t.x_precio, t.y_encabezado + 2, color, alto, 0.9);
+
+  let total = 0, hayTotal = false;
+  let yFila = t.y_encabezado + t.alto_fila;
+  datos.productos.forEach(p => {
+    texto(page, p.producto, t.x_producto, yFila, t.tamano, font, color, "izquierda", alto);
+    texto(page, formatearPrecio(p.precio, simbolo), t.x_precio, yFila, t.tamano, font, color, "derecha", alto);
+    const n = parseNumero(p.precio);
+    if (n != null) { total += n; hayTotal = true; }
+    yFila += t.alto_fila;
+  });
+
+  if (t.mostrar_total && hayTotal) {
+    linea(page, t.x_producto, t.x_precio, yFila - t.alto_fila + 2.5, color, alto, 0.9);
+    texto(page, t.etiqueta_total, t.x_producto, yFila + 1, t.tamano, fontBold, color, "izquierda", alto);
+    texto(page, formatearNumero(total, simbolo), t.x_precio, yFila + 1, t.tamano, fontBold, color, "derecha", alto);
   }
-  page.drawText(contenido, { x: xFinal, y, size, font: f, color });
 }
 
 async function generarPDF(datos) {
+  if (typeof PDFLib === "undefined") {
+    throw new Error("no se pudo cargar el generador (revisá tu conexión)");
+  }
+  const { PDFDocument, StandardFonts } = PDFLib;
   let pdfDoc, page, usarPlantilla = false;
-
   try {
     const res = await fetch(CONFIG.plantilla_pdf, { cache: "no-store" });
     if (res.ok) {
       const ct = res.headers.get("content-type") || "";
       const bytes = await res.arrayBuffer();
-      // evitar cargar una pagina de error 404 como si fuera PDF
       if (bytes.byteLength > 100 && !ct.includes("text/html")) {
         pdfDoc = await PDFDocument.load(bytes);
         page = pdfDoc.getPage(0);
         usarPlantilla = true;
       }
     }
-  } catch (e) { /* sin plantilla, usar membrete basico */ }
+  } catch (e) { /* sin plantilla */ }
 
   if (!usarPlantilla) {
     pdfDoc = await PDFDocument.create();
     page = pdfDoc.addPage([A4.ancho, A4.alto]);
   }
-
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-  const color = hexToRgb(CONFIG.fuente.color);
-
-  if (!usarPlantilla) dibujarMembreteBasico(page, font, fontBold);
-
-  const c = CONFIG.campos;
-  if (c.fecha)          dibujarCampo(page, c.fecha, datos.fecha, font, fontBold, color);
-  if (c.nombre_cliente) dibujarCampo(page, c.nombre_cliente, datos.cliente, font, fontBold, color);
-  if (c.producto)       dibujarCampo(page, c.producto, datos.producto, font, fontBold, color);
-  if (c.precio)         dibujarCampo(page, c.precio, datos.precio, font, fontBold, color);
-
+  dibujarContenido(page, font, fontBold, datos);
   return await pdfDoc.save();
 }
 
@@ -280,50 +387,44 @@ function descargar(bytes, nombre) {
   const blob = new Blob([bytes], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url;
-  a.download = nombre;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  a.href = url; a.download = nombre;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-// ---- Arranque ----
+// ---------- arranque ----------
 document.getElementById("fecha").value = hoyTexto();
-cargarConfig();
+agregarFila();
+cargarConfig().then(actualizarTotal);
+document.getElementById("btnAgregar").addEventListener("click", () => agregarFila());
 
 document.getElementById("formulario").addEventListener("submit", async (e) => {
   e.preventDefault();
   const estado = document.getElementById("estado");
-  const btn = document.getElementById("btn");
+  const btn = document.getElementById("btnGenerar");
   estado.classList.remove("error");
 
   const cliente = document.getElementById("cliente").value.trim();
-  const producto = document.getElementById("producto").value.trim();
+  const productos = leerProductos().filter(p => p.producto);
   if (!cliente) { estado.classList.add("error"); estado.textContent = "Ingresá el nombre del cliente."; return; }
-  if (!producto) { estado.classList.add("error"); estado.textContent = "Ingresá el producto."; return; }
+  if (productos.length === 0) { estado.classList.add("error"); estado.textContent = "Agregá al menos un producto."; return; }
 
   const datos = {
     fecha: document.getElementById("fecha").value.trim() || hoyTexto(),
-    cliente,
-    producto,
-    precio: formatearPrecio(document.getElementById("precio").value, CONFIG.simbolo_moneda),
+    cliente, productos
   };
 
   btn.disabled = true;
+  estado.style.color = "var(--cafe-medio)";
   estado.textContent = "Generando...";
-  estado.style.color = "#777";
-
   try {
     const bytes = await generarPDF(datos);
-    const fecha = new Date();
-    const yyyymmdd = `${fecha.getFullYear()}${String(fecha.getMonth()+1).padStart(2,"0")}${String(fecha.getDate()).padStart(2,"0")}`;
-    descargar(bytes, `hoja_${nombreArchivoSeguro(cliente)}_${yyyymmdd}.pdf`);
-    estado.style.color = "";
-    estado.textContent = "¡Listo! PDF descargado.";
+    const d = new Date();
+    const ymd = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;
+    descargar(bytes, `hoja_${nombreArchivoSeguro(cliente)}_${ymd}.pdf`);
+    estado.style.color = ""; estado.textContent = "¡Listo! PDF descargado.";
   } catch (err) {
-    estado.classList.add("error");
-    estado.textContent = "Error al generar: " + err.message;
+    estado.classList.add("error"); estado.textContent = "Error al generar: " + err.message;
   } finally {
     btn.disabled = false;
   }
