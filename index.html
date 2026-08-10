@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hojas Membretadas · SKIN LEATHER</title>
+<title>Documentos · SKIN LEATHER</title>
 <meta name="theme-color" content="#3b2a1d">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Membrete SL">
+<meta name="apple-mobile-web-app-title" content="Docs SL">
 <style>
   :root {
     --cafe-oscuro: #3b2a1d;
@@ -67,7 +67,38 @@
     text-transform: uppercase;
     color: var(--caramelo);
   }
+
+  /* Selector de documento */
+  .selector {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+    margin: 0;
+    background: var(--crema);
+    border-bottom: 1px solid var(--borde);
+  }
+  .selector button {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 0.3px;
+    color: var(--cafe-medio);
+    background: transparent;
+    border: none;
+    border-radius: 11px;
+    cursor: pointer;
+    transition: background .15s, color .15s, box-shadow .15s;
+  }
+  .selector button[aria-selected="true"] {
+    background: #fff;
+    color: var(--cafe-oscuro);
+    box-shadow: 0 2px 8px rgba(59, 42, 29, 0.1);
+  }
+
   form { padding: 24px 28px 30px; }
+  form[hidden] { display: none; }
   label {
     display: block;
     font-size: 12px;
@@ -78,9 +109,10 @@
     color: var(--cafe-medio);
   }
   .campo { margin-bottom: 18px; }
-  input {
+  input, textarea {
     width: 100%;
     padding: 13px 15px;
+    font-family: inherit;
     font-size: 16px;
     color: var(--texto);
     background: var(--crema-input);
@@ -90,21 +122,36 @@
     transition: border-color .15s, box-shadow .15s;
     -webkit-appearance: none;
   }
-  input:focus {
+  textarea { resize: vertical; min-height: 78px; line-height: 1.45; }
+  input:focus, textarea:focus {
     border-color: var(--caramelo);
     box-shadow: 0 0 0 3px rgba(160, 122, 82, 0.15);
   }
-  .seccion-productos { margin-bottom: 14px; }
-  .fila {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 9px;
+  .ayuda {
+    margin: 8px 2px 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--tenue);
+    min-height: 18px;
   }
-  .fila .prod { flex: 1; min-width: 0; }
-  .fila .cant { width: 52px; flex: none; text-align: center; }
-  .fila .precio { width: 96px; flex: none; }
-  .fila input { padding: 12px 10px; }
+  .ayuda strong { color: var(--cafe-medio); font-weight: 600; }
+
+  .seccion-productos { margin-bottom: 14px; }
+  /* Cada producto es un bloque: la descripcion se lleva el ancho entero y
+     abajo van cantidad y precio unitario. */
+  .fila {
+    margin-bottom: 11px;
+    padding: 11px;
+    background: var(--crema);
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+  }
+  .fila-arriba { display: flex; gap: 8px; align-items: center; }
+  .fila-arriba .prod { flex: 1; min-width: 0; }
+  .fila-abajo { display: flex; gap: 8px; margin-top: 8px; }
+  .fila-abajo .cant { width: 88px; flex: none; text-align: center; }
+  .fila-abajo .precio { flex: 1; min-width: 0; }
+  .fila input { padding: 12px; background: #fff; }
   .quitar {
     flex: none;
     width: 34px;
@@ -127,6 +174,7 @@
     padding: 9px 14px;
     font-size: 14px;
     font-weight: 600;
+    font-family: inherit;
     color: var(--cafe);
     background: transparent;
     border: 1.5px dashed var(--borde);
@@ -146,12 +194,25 @@
   }
   .total .etiqueta { color: var(--cafe-medio); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; font-size: 12px; }
   .total .monto { font-size: 18px; font-weight: 700; color: var(--cafe-oscuro); }
+  .firma-nota {
+    margin: 18px 0 0;
+    padding: 12px 14px;
+    background: var(--crema-input);
+    border: 1px dashed var(--borde);
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--tenue);
+    text-align: center;
+  }
+  .firma-nota strong { display: block; color: var(--cafe); font-size: 14px; font-weight: 600; }
   .generar {
     width: 100%;
     margin-top: 20px;
     padding: 16px;
     font-size: 16px;
     font-weight: 600;
+    font-family: inherit;
     letter-spacing: 0.3px;
     color: var(--crema);
     background: var(--cafe);
@@ -163,7 +224,7 @@
   .generar:hover { background: var(--cafe-medio); }
   .generar:active { transform: translateY(1px); }
   .generar:disabled { opacity: .55; cursor: default; }
-  #estado {
+  .estado {
     margin: 15px 0 0;
     font-size: 14px;
     text-align: center;
@@ -171,16 +232,29 @@
     color: var(--cafe-medio);
     font-weight: 600;
   }
-  #estado.error { color: var(--error); }
+  .estado.error { color: var(--error); }
 </style>
 </head>
 <body>
   <div class="tarjeta">
     <div class="cabecera">
-      <h1>Hoja Membretada</h1>
+      <h1 id="titulo">Presupuesto</h1>
       <p class="marca">Skin Leather · Taller de Cuero</p>
     </div>
-    <form id="formulario" autocomplete="off">
+
+    <div class="selector" role="tablist">
+      <button type="button" role="tab" id="tabPresupuesto" aria-selected="true" data-doc="presupuesto">Presupuesto</button>
+      <button type="button" role="tab" id="tabRecibo" aria-selected="false" data-doc="recibo">Recibo</button>
+    </div>
+
+    <!-- ============ PRESUPUESTO ============ -->
+    <form id="formPresupuesto" autocomplete="off">
+      <div class="campo">
+        <label for="numero">N° de presupuesto</label>
+        <input type="text" id="numero" inputmode="numeric">
+        <p class="ayuda">Avanza solo después de generar cada uno.</p>
+      </div>
+
       <div class="campo">
         <label for="cliente">Nombre del cliente</label>
         <input type="text" id="cliente">
@@ -202,15 +276,67 @@
         <span class="monto" id="total">$ 0</span>
       </div>
 
+      <div class="campo" style="margin-top: 20px;">
+        <label for="formaPago">Forma de pago</label>
+        <textarea id="formaPago" rows="2" placeholder="Ej: 50% al iniciar y 50% contra entrega"></textarea>
+      </div>
+
+      <p class="firma-nota">Se firma automáticamente<strong>Gabriel Levene · Administrador</strong></p>
+
       <button type="submit" class="generar" id="btnGenerar">Generar PDF</button>
-      <p id="estado"></p>
+      <p class="estado" id="estado"></p>
+    </form>
+
+    <!-- ============ RECIBO ============ -->
+    <form id="formRecibo" autocomplete="off" hidden>
+      <div class="campo">
+        <label for="rNumero">N° de recibo</label>
+        <input type="text" id="rNumero" inputmode="numeric">
+        <p class="ayuda">Avanza solo después de generar cada uno.</p>
+      </div>
+
+      <div class="campo">
+        <label for="rCliente">Nombre del cliente</label>
+        <input type="text" id="rCliente">
+      </div>
+
+      <div class="campo">
+        <label for="rFecha">Fecha</label>
+        <input type="text" id="rFecha" inputmode="text">
+      </div>
+
+      <div class="campo">
+        <label for="rRecibimos">Recibimos de</label>
+        <input type="text" id="rRecibimos" placeholder="Nombre y apellido">
+      </div>
+
+      <div class="campo">
+        <label for="rMonto">La suma de pesos</label>
+        <input type="text" id="rMonto" inputmode="decimal" placeholder="Ej: 6.520.000">
+      </div>
+
+      <div class="campo">
+        <label for="rMontoLetras">La suma de pesos — en letras</label>
+        <input type="text" id="rMontoLetras" placeholder="Se completa solo">
+        <p class="ayuda">Se escribe solo a partir del importe. Podés corregirlo a mano si querés.</p>
+      </div>
+
+      <div class="campo">
+        <label for="rConcepto">En concepto de</label>
+        <textarea id="rConcepto" rows="3" placeholder="Trabajos a realizar"></textarea>
+      </div>
+
+      <p class="firma-nota">Se firma automáticamente<strong>Gabriel Levene · Administrador</strong></p>
+
+      <button type="submit" class="generar" id="btnGenerarRecibo">Generar PDF</button>
+      <p class="estado" id="estadoRecibo"></p>
     </form>
   </div>
 
 <script src="pdf-lib.min.js"></script>
 <script>
 // La libreria PDFLib se referencia recien al generar el PDF, asi el formulario
-// (fecha, filas de productos, total) funciona aunque el CDN tarde o falle.
+// (fecha, filas de productos, total) funciona aunque la libreria tarde o falle.
 const MM = 2.834645669; // milimetros a puntos
 const A4 = { ancho: 595.28, alto: 841.89 };
 
@@ -221,13 +347,34 @@ const CONFIG = {
   simbolo_moneda: "$",
   fecha:   { etiqueta: "Córdoba, ", x: 185, y: 56, tamano: 11, negrita: false, alineacion: "derecha" },
   cliente: { etiqueta: "Cliente: ", x: 25, y: 60, tamano: 13, negrita: true, alineacion: "izquierda" },
+  numero:  { etiqueta: "N° ", x: 185, y: 64, tamano: 11, negrita: true, alineacion: "derecha", digitos: 4 },
   tabla: {
-    x_producto: 25, x_cantidad: 112, x_unitario: 152, x_importe: 185,
-    y_encabezado: 80, alto_fila: 9, tamano: 10, tamano_encabezado: 9,
-    encabezado_producto: "PRODUCTO", encabezado_cantidad: "CANT.",
-    encabezado_unitario: "P. UNITARIO", encabezado_importe: "IMPORTE",
+    x_producto: 25, x_importe: 185,
+    y_encabezado: 80, alto_fila: 6.5, separacion_producto: 4.5,
+    tamano: 10, tamano_detalle: 9.5, tamano_encabezado: 9,
+    encabezado_producto: "DETALLE", encabezado_importe: "IMPORTE",
     mostrar_total: true, etiqueta_total: "TOTAL",
     nota: "LOS PRECIOS NO INCLUYEN EL IVA"
+  },
+  forma_pago: {
+    etiqueta: "Forma de pago", y: 150,
+    tamano_etiqueta: 10.5, tamano_valor: 11, alto_linea: 7
+  },
+  recibo: {
+    x_izquierda: 25, x_derecha: 185,
+    titulo: "RECIBO", y_titulo: 84, tamano_titulo: 17, espaciado_titulo: 3.2,
+    tamano_etiqueta: 10.5, tamano_valor: 11,
+    y_recibimos: 108, etiqueta_recibimos: "Recibimos de",
+    y_suma: 126, etiqueta_suma: "la suma de pesos",
+    y_monto: 140,
+    y_concepto: 156, etiqueta_concepto: "en concepto de",
+    alto_linea_concepto: 7
+  },
+  firma: {
+    nombre: "Gabriel Levene", cargo: "Administrador",
+    x_centro: 148, ancho_linea: 62,
+    y_recibo: 205, y_presupuesto: 205,
+    tamano_firma: 17, tamano_nombre: 10.5, tamano_cargo: 9
   }
 };
 
@@ -236,7 +383,8 @@ async function cargarConfig() {
     const res = await fetch("config.json", { cache: "no-store" });
     if (res.ok) {
       const j = await res.json();
-      ["fecha", "cliente", "tabla", "fuente"].forEach(k => { if (j[k]) CONFIG[k] = j[k]; });
+      ["fecha", "cliente", "numero", "tabla", "fuente", "recibo", "firma", "forma_pago"]
+        .forEach(k => { if (j[k]) CONFIG[k] = j[k]; });
       if (j.simbolo_moneda) CONFIG.simbolo_moneda = j.simbolo_moneda;
       if (j.plantilla_pdf) CONFIG.plantilla_pdf = j.plantilla_pdf;
     }
@@ -283,6 +431,62 @@ function nombreArchivoSeguro(t) {
   return (t.replace(/[^\w\s.-]/g, "").replace(/\s+/g, "_").slice(0, 60)) || "hoja";
 }
 
+// ---------- numero a letras (es-AR) ----------
+const UNIDADES = ["", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve",
+  "diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve",
+  "veinte", "veintiuno", "veintidós", "veintitrés", "veinticuatro", "veinticinco", "veintiséis",
+  "veintisiete", "veintiocho", "veintinueve"];
+const DECENAS = ["", "", "", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"];
+const CENTENAS = ["", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos",
+  "seiscientos", "setecientos", "ochocientos", "novecientos"];
+
+// Convierte 0..999. 'apocope' usa "un"/"veintiún" en lugar de "uno"/"veintiuno"
+// (hace falta cuando el grupo va seguido de "mil" o "millones").
+function grupoALetras(n, apocope) {
+  if (n === 0) return "";
+  if (n === 100) return "cien";
+  const c = Math.floor(n / 100), resto = n % 100;
+  let salida = c ? CENTENAS[c] : "";
+  if (resto) {
+    if (salida) salida += " ";
+    if (resto < 30) {
+      let palabra = UNIDADES[resto];
+      if (apocope && resto === 1) palabra = "un";
+      if (apocope && resto === 21) palabra = "veintiún";
+      salida += palabra;
+    } else {
+      const d = Math.floor(resto / 10), u = resto % 10;
+      salida += DECENAS[d];
+      if (u) salida += " y " + (apocope && u === 1 ? "un" : UNIDADES[u]);
+    }
+  }
+  return salida;
+}
+
+function enteroALetras(n) {
+  if (n === 0) return "cero";
+  const millones = Math.floor(n / 1e6);
+  const miles = Math.floor((n % 1e6) / 1000);
+  const resto = n % 1000;
+  const partes = [];
+  if (millones) partes.push(millones === 1 ? "un millón" : grupoALetras(millones, true) + " millones");
+  if (miles) partes.push(miles === 1 ? "mil" : grupoALetras(miles, true) + " mil");
+  if (resto) partes.push(grupoALetras(resto, false));
+  return partes.join(" ");
+}
+
+// Devuelve el importe en letras, listo para ir despues de "la suma de pesos".
+function montoALetras(valor) {
+  const n = parseNumero(valor);
+  if (n == null) return "";
+  const entero = Math.floor(Math.abs(n));
+  const centavos = Math.round((Math.abs(n) - entero) * 100);
+  if (entero > 999999999) return ""; // fuera de rango razonable para un recibo
+  let texto = enteroALetras(entero);
+  texto = texto.charAt(0).toUpperCase() + texto.slice(1);
+  return centavos ? `${texto} con ${String(centavos).padStart(2, "0")}/100` : texto;
+}
+
 // ---------- filas de productos (interfaz) ----------
 const cont = document.getElementById("productos");
 
@@ -298,10 +502,14 @@ function agregarFila(producto = "", cantidad = "", precio = "") {
   const fila = document.createElement("div");
   fila.className = "fila";
   fila.innerHTML = `
-    <input type="text" class="prod" placeholder="Producto">
-    <input type="text" class="cant" inputmode="numeric" placeholder="Cant.">
-    <input type="text" class="precio" inputmode="decimal" placeholder="P. unit.">
-    <button type="button" class="quitar" title="Quitar">&times;</button>`;
+    <div class="fila-arriba">
+      <input type="text" class="prod" placeholder="Descripción del producto">
+      <button type="button" class="quitar" title="Quitar">&times;</button>
+    </div>
+    <div class="fila-abajo">
+      <input type="text" class="cant" inputmode="numeric" placeholder="Cant.">
+      <input type="text" class="precio" inputmode="decimal" placeholder="Precio unitario">
+    </div>`;
   fila.querySelector(".prod").value = producto;
   fila.querySelector(".cant").value = cantidad;
   fila.querySelector(".precio").value = precio;
@@ -346,56 +554,199 @@ function linea(page, x1mm, x2mm, ymm, color, alto, grosor = 0.7) {
   const y = alto - ymm * MM;
   page.drawLine({ start: { x: x1mm * MM, y }, end: { x: x2mm * MM, y }, thickness: grosor, color });
 }
+// Titulo centrado con espacio extra entre letras (pdf-lib no lo trae de fabrica).
+function textoEspaciado(page, t, xCentroMm, ymm, size, font, color, espaciado, alto) {
+  const chars = String(t).split("");
+  const ancho = chars.reduce((a, c) => a + font.widthOfTextAtSize(c, size), 0) + espaciado * (chars.length - 1);
+  let x = xCentroMm * MM - ancho / 2;
+  const y = alto - ymm * MM;
+  chars.forEach(c => {
+    page.drawText(c, { x, y, size, font, color });
+    x += font.widthOfTextAtSize(c, size) + espaciado;
+  });
+}
+// Parte un texto en lineas que entren en 'anchoMm'.
+function envolverTexto(t, font, size, anchoMm) {
+  const maxAncho = anchoMm * MM;
+  const palabras = String(t || "").trim().split(/\s+/).filter(Boolean);
+  const lineas = [];
+  let actual = "";
+  palabras.forEach(p => {
+    const prueba = actual ? actual + " " + p : p;
+    if (font.widthOfTextAtSize(prueba, size) <= maxAncho) { actual = prueba; return; }
+    if (actual) { lineas.push(actual); actual = ""; }
+    // Palabra sola mas larga que el renglon: la cortamos a lo bruto.
+    let sobrante = p;
+    while (font.widthOfTextAtSize(sobrante, size) > maxAncho && sobrante.length > 1) {
+      let corte = sobrante.length;
+      while (corte > 1 && font.widthOfTextAtSize(sobrante.slice(0, corte), size) > maxAncho) corte--;
+      lineas.push(sobrante.slice(0, corte));
+      sobrante = sobrante.slice(corte);
+    }
+    actual = sobrante;
+  });
+  if (actual) lineas.push(actual);
+  return lineas;
+}
 
-function dibujarContenido(page, font, fontBold, datos) {
-  const { height: alto } = page.getSize();
-  const color = hexToRgb(CONFIG.fuente.color);
-  const simbolo = CONFIG.simbolo_moneda;
+// Reparte un texto en renglones: el primero arranca despues de la etiqueta y los
+// que siguen usan el ancho completo hasta el margen derecho.
+function repartirEnRenglones(t, font, size, xPrimero, xResto, xDerecha) {
+  const partido = envolverTexto(t, font, size, xDerecha - xPrimero);
+  if (!partido.length) return [];
+  const renglones = [{ x: xPrimero, t: partido[0] }];
+  const sobra = partido.slice(1).join(" ");
+  envolverTexto(sobra, font, size, xDerecha - xResto)
+    .forEach(l => renglones.push({ x: xResto, t: l }));
+  return renglones;
+}
 
+// Dibuja "Etiqueta  valor". Si el valor no entra en un renglon, sigue abajo a lo
+// ancho de la hoja. Devuelve la y del ultimo renglon dibujado. Lo usan el recibo
+// y la forma de pago.
+function campoConRenglones(page, font, fontBold, color, alto, o) {
+  texto(page, o.etiqueta, o.xIzquierda, o.ymm, o.tamanoEtiqueta, fontBold, color, "izquierda", alto);
+  const xValor = o.xIzquierda + (fontBold.widthOfTextAtSize(o.etiqueta, o.tamanoEtiqueta) / MM) + 3;
+  const renglones = repartirEnRenglones(o.valor, font, o.tamanoValor, xValor, o.xIzquierda, o.xDerecha);
+  renglones.forEach((ren, i) => {
+    texto(page, ren.t, ren.x, o.ymm + i * o.altoRenglon, o.tamanoValor, font, color, "izquierda", alto);
+  });
+  return o.ymm + Math.max(0, renglones.length - 1) * o.altoRenglon;
+}
+
+// Bloque de firma digital, compartido por el recibo y el presupuesto.
+function dibujarFirma(page, font, fontBold, fontItalica, ymm, color, alto) {
+  const s = CONFIG.firma;
+  const mitad = s.ancho_linea / 2;
+  texto(page, s.nombre, s.x_centro, ymm, s.tamano_firma, fontItalica, color, "centro", alto);
+  linea(page, s.x_centro - mitad, s.x_centro + mitad, ymm + 3, color, alto, 0.7);
+  texto(page, s.nombre, s.x_centro, ymm + 9, s.tamano_nombre, fontBold, color, "centro", alto);
+  texto(page, s.cargo, s.x_centro, ymm + 14.5, s.tamano_cargo, font, color, "centro", alto);
+}
+
+// Numero, fecha y cliente: la cabecera que comparten los dos documentos.
+function dibujarCabecera(page, font, fontBold, color, alto, datos) {
   const f = CONFIG.fecha;
   texto(page, (f.etiqueta || "") + datos.fecha, f.x, f.y, f.tamano, f.negrita ? fontBold : font, color, f.alineacion, alto);
+
+  const nu = CONFIG.numero;
+  if (nu && datos.numero)
+    texto(page, (nu.etiqueta || "") + datos.numero, nu.x, nu.y, nu.tamano, nu.negrita ? fontBold : font, color, nu.alineacion, alto);
 
   const cl = CONFIG.cliente;
   if (datos.cliente)
     texto(page, (cl.etiqueta || "") + datos.cliente, cl.x, cl.y, cl.tamano, cl.negrita ? fontBold : font, color, cl.alineacion, alto);
+}
+
+function dibujarPresupuesto(page, font, fontBold, fontItalica, datos) {
+  const { height: alto } = page.getSize();
+  const color = hexToRgb(CONFIG.fuente.color);
+  const simbolo = CONFIG.simbolo_moneda;
+
+  dibujarCabecera(page, font, fontBold, color, alto, datos);
 
   const t = CONFIG.tabla;
   texto(page, t.encabezado_producto, t.x_producto, t.y_encabezado, t.tamano_encabezado, fontBold, color, "izquierda", alto);
-  texto(page, t.encabezado_cantidad, t.x_cantidad, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
-  texto(page, t.encabezado_unitario, t.x_unitario, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
   texto(page, t.encabezado_importe, t.x_importe, t.y_encabezado, t.tamano_encabezado, fontBold, color, "derecha", alto);
   linea(page, t.x_producto, t.x_importe, t.y_encabezado + 2, color, alto, 0.9);
 
+  // Cada producto: la descripcion se lleva el ancho entero (y sigue abajo si es
+  // larga), y debajo la linea "cantidad x precio unitario" con el importe a la derecha.
   let total = 0, hayTotal = false;
-  let yFila = t.y_encabezado + t.alto_fila;
+  let yFila = t.y_encabezado + t.alto_fila + 2;
   datos.productos.forEach(p => {
+    envolverTexto(p.producto, font, t.tamano, t.x_importe - t.x_producto).forEach(l => {
+      texto(page, l, t.x_producto, yFila, t.tamano, font, color, "izquierda", alto);
+      yFila += t.alto_fila;
+    });
+
     const cant = cantidadNum(p.cantidad);
-    texto(page, p.producto, t.x_producto, yFila, t.tamano, font, color, "izquierda", alto);
-    texto(page, cantidadTexto(cant), t.x_cantidad, yFila, t.tamano, font, color, "derecha", alto);
-    texto(page, formatearPrecio(p.precio, simbolo), t.x_unitario, yFila, t.tamano, font, color, "derecha", alto);
+    const detalle = `${cantidadTexto(cant)} × ${formatearPrecio(p.precio, simbolo)}`;
+    texto(page, detalle, t.x_producto, yFila, t.tamano_detalle, font, color, "izquierda", alto);
+
     const n = parseNumero(p.precio);
     if (n != null) {
       const importe = n * cant;
-      texto(page, formatearNumero(importe, simbolo), t.x_importe, yFila, t.tamano, font, color, "derecha", alto);
+      texto(page, formatearNumero(importe, simbolo), t.x_importe, yFila, t.tamano, fontBold, color, "derecha", alto);
       total += importe;
       hayTotal = true;
     }
-    yFila += t.alto_fila;
+    yFila += t.alto_fila + t.separacion_producto;
   });
 
   if (t.mostrar_total && hayTotal) {
-    linea(page, t.x_producto, t.x_importe, yFila - t.alto_fila + 2.5, color, alto, 0.9);
-    texto(page, t.etiqueta_total, t.x_producto, yFila + 1, t.tamano + 1, fontBold, color, "izquierda", alto);
-    texto(page, formatearNumero(total, simbolo), t.x_importe, yFila + 1, t.tamano + 1, fontBold, color, "derecha", alto);
-    yFila = yFila + 1 + t.alto_fila;
+    linea(page, t.x_producto, t.x_importe, yFila - t.separacion_producto, color, alto, 0.9);
+    yFila += 1.5;
+    texto(page, t.etiqueta_total, t.x_producto, yFila, t.tamano + 1, fontBold, color, "izquierda", alto);
+    texto(page, formatearNumero(total, simbolo), t.x_importe, yFila, t.tamano + 1, fontBold, color, "derecha", alto);
+    yFila += t.alto_fila + 2;
   }
 
   if (t.nota && datos.productos.length) {
-    texto(page, t.nota, t.x_producto, yFila + 2, 9, fontBold, color, "izquierda", alto);
+    texto(page, t.nota, t.x_producto, yFila, 9, fontBold, color, "izquierda", alto);
+    yFila += t.alto_fila;
   }
+
+  // Casillero de forma de pago: baja si la lista de productos se estiro.
+  const fp = CONFIG.forma_pago;
+  let yFin = yFila;
+  if (fp) {
+    yFin = campoConRenglones(page, font, fontBold, color, alto, {
+      etiqueta: fp.etiqueta,
+      valor: datos.formaPago,
+      ymm: Math.max(fp.y, yFila + 10),
+      xIzquierda: t.x_producto,
+      xDerecha: t.x_importe,
+      tamanoEtiqueta: fp.tamano_etiqueta,
+      tamanoValor: fp.tamano_valor,
+      altoRenglon: fp.alto_linea
+    });
+  }
+
+  dibujarFirma(page, font, fontBold, fontItalica, Math.max(CONFIG.firma.y_presupuesto, yFin + 18), color, alto);
 }
 
-async function generarPDF(datos) {
+function dibujarRecibo(page, font, fontBold, fontItalica, datos) {
+  const { height: alto } = page.getSize();
+  const color = hexToRgb(CONFIG.fuente.color);
+  const r = CONFIG.recibo;
+  const simbolo = CONFIG.simbolo_moneda;
+
+  dibujarCabecera(page, font, fontBold, color, alto, datos);
+
+  textoEspaciado(page, r.titulo, (r.x_izquierda + r.x_derecha) / 2, r.y_titulo, r.tamano_titulo, fontBold, color, r.espaciado_titulo, alto);
+
+  const alturaRenglon = r.alto_linea_concepto;
+
+  function campo(etiqueta, valor, ymm) {
+    return campoConRenglones(page, font, fontBold, color, alto, {
+      etiqueta, valor, ymm,
+      xIzquierda: r.x_izquierda,
+      xDerecha: r.x_derecha,
+      tamanoEtiqueta: r.tamano_etiqueta,
+      tamanoValor: r.tamano_valor,
+      altoRenglon: alturaRenglon
+    });
+  }
+
+  // Las posiciones de config son el punto de partida; si un campo se estira, el
+  // resto baja para no pisarse.
+  let y = campo(r.etiqueta_recibimos, datos.recibimos, r.y_recibimos);
+  y = campo(r.etiqueta_suma, datos.montoLetras, Math.max(r.y_suma, y + alturaRenglon));
+
+  // El importe en numeros, destacado a la derecha.
+  const yMonto = Math.max(r.y_monto, y + alturaRenglon);
+  const montoNum = parseNumero(datos.monto);
+  if (montoNum != null) {
+    texto(page, formatearNumero(montoNum, simbolo), r.x_derecha, yMonto, 15, fontBold, color, "derecha", alto);
+  }
+
+  const yFin = campo(r.etiqueta_concepto, datos.concepto, Math.max(r.y_concepto, yMonto + alturaRenglon));
+
+  dibujarFirma(page, font, fontBold, fontItalica, Math.max(CONFIG.firma.y_recibo, yFin + 18), color, alto);
+}
+
+async function generarPDF(tipo, datos) {
   if (typeof PDFLib === "undefined") {
     throw new Error("no se pudo cargar el generador (revisá tu conexión)");
   }
@@ -420,7 +771,11 @@ async function generarPDF(datos) {
   }
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-  dibujarContenido(page, font, fontBold, datos);
+  const fontItalica = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+
+  if (tipo === "recibo") dibujarRecibo(page, font, fontBold, fontItalica, datos);
+  else dibujarPresupuesto(page, font, fontBold, fontItalica, datos);
+
   return await pdfDoc.save();
 }
 
@@ -433,13 +788,85 @@ function descargar(bytes, nombre) {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
+function selloFecha() {
+  const d = new Date();
+  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;
+}
+
+// ---------- numeracion correlativa ----------
+// El contador vive en el celular. Cada documento lleva su propia serie y se
+// guarda recien cuando el PDF salio bien, asi un error no consume un numero.
+const CLAVE_NUMERO = { presupuesto: "sl_numero_presupuesto", recibo: "sl_numero_recibo" };
+
+function formatearNumeroDoc(n) {
+  const digitos = (CONFIG.numero && CONFIG.numero.digitos) || 4;
+  return String(n).padStart(digitos, "0");
+}
+function proximoNumero(tipo) {
+  try {
+    const guardado = parseInt(localStorage.getItem(CLAVE_NUMERO[tipo]), 10);
+    if (Number.isFinite(guardado) && guardado > 0) return guardado;
+  } catch (e) { /* sin localStorage: arrancamos de 1 */ }
+  return 1;
+}
+function guardarProximoNumero(tipo, usado) {
+  try { localStorage.setItem(CLAVE_NUMERO[tipo], String(usado + 1)); } catch (e) { /* ignorar */ }
+}
+// Toma lo que haya escrito en el campo; si no es un numero valido, usa el que toca.
+function numeroDelCampo(input, tipo) {
+  const n = parseInt(String(input.value).replace(/\D/g, ""), 10);
+  return (Number.isFinite(n) && n > 0) ? n : proximoNumero(tipo);
+}
+function refrescarNumero(input, tipo) {
+  input.value = formatearNumeroDoc(proximoNumero(tipo));
+}
+
+// ---------- selector de documento ----------
+const TITULOS = { presupuesto: "Presupuesto", recibo: "Recibo" };
+const formularios = {
+  presupuesto: document.getElementById("formPresupuesto"),
+  recibo: document.getElementById("formRecibo")
+};
+
+function mostrarDocumento(tipo) {
+  document.getElementById("titulo").textContent = TITULOS[tipo];
+  Object.entries(formularios).forEach(([k, f]) => { f.hidden = (k !== tipo); });
+  document.querySelectorAll(".selector button").forEach(b => {
+    b.setAttribute("aria-selected", String(b.dataset.doc === tipo));
+  });
+}
+document.querySelectorAll(".selector button").forEach(b => {
+  b.addEventListener("click", () => mostrarDocumento(b.dataset.doc));
+});
+
 // ---------- arranque ----------
+const inputNumero = document.getElementById("numero");
+const inputRNumero = document.getElementById("rNumero");
+
 document.getElementById("fecha").value = hoyTexto();
+document.getElementById("rFecha").value = hoyTexto();
+refrescarNumero(inputNumero, "presupuesto");
+refrescarNumero(inputRNumero, "recibo");
 agregarFila();
-cargarConfig().then(actualizarTotal);
+cargarConfig().then(() => {
+  actualizarTotal();
+  // La config puede cambiar la cantidad de digitos: reescribimos con ese formato.
+  refrescarNumero(inputNumero, "presupuesto");
+  refrescarNumero(inputRNumero, "recibo");
+});
 document.getElementById("btnAgregar").addEventListener("click", () => agregarFila());
 
-document.getElementById("formulario").addEventListener("submit", async (e) => {
+// El importe en letras se completa solo con el numero. Se puede corregir a mano,
+// pero si despues cambia el importe se vuelve a escribir: en un recibo las letras
+// y los numeros no pueden decir cosas distintas.
+const inputMonto = document.getElementById("rMonto");
+const inputLetras = document.getElementById("rMontoLetras");
+inputMonto.addEventListener("input", () => {
+  inputLetras.value = montoALetras(inputMonto.value);
+});
+
+// ---------- generar presupuesto ----------
+document.getElementById("formPresupuesto").addEventListener("submit", async (e) => {
   e.preventDefault();
   const estado = document.getElementById("estado");
   const btn = document.getElementById("btnGenerar");
@@ -450,8 +877,11 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
   if (!cliente) { estado.classList.add("error"); estado.textContent = "Ingresá el nombre del cliente."; return; }
   if (productos.length === 0) { estado.classList.add("error"); estado.textContent = "Agregá al menos un producto."; return; }
 
+  const nro = numeroDelCampo(inputNumero, "presupuesto");
   const datos = {
     fecha: document.getElementById("fecha").value.trim() || hoyTexto(),
+    numero: formatearNumeroDoc(nro),
+    formaPago: document.getElementById("formaPago").value.trim(),
     cliente, productos
   };
 
@@ -459,10 +889,50 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
   estado.style.color = "var(--cafe-medio)";
   estado.textContent = "Generando...";
   try {
-    const bytes = await generarPDF(datos);
-    const d = new Date();
-    const ymd = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;
-    descargar(bytes, `hoja_${nombreArchivoSeguro(cliente)}_${ymd}.pdf`);
+    const bytes = await generarPDF("presupuesto", datos);
+    descargar(bytes, `hoja_${datos.numero}_${nombreArchivoSeguro(cliente)}_${selloFecha()}.pdf`);
+    guardarProximoNumero("presupuesto", nro);
+    refrescarNumero(inputNumero, "presupuesto");
+    estado.style.color = ""; estado.textContent = "¡Listo! PDF descargado.";
+  } catch (err) {
+    estado.classList.add("error"); estado.textContent = "Error al generar: " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// ---------- generar recibo ----------
+document.getElementById("formRecibo").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const estado = document.getElementById("estadoRecibo");
+  const btn = document.getElementById("btnGenerarRecibo");
+  estado.classList.remove("error");
+
+  const cliente = document.getElementById("rCliente").value.trim();
+  const recibimos = document.getElementById("rRecibimos").value.trim();
+  const monto = document.getElementById("rMonto").value.trim();
+  const concepto = document.getElementById("rConcepto").value.trim();
+
+  if (!cliente) { estado.classList.add("error"); estado.textContent = "Ingresá el nombre del cliente."; return; }
+  if (!recibimos) { estado.classList.add("error"); estado.textContent = "Completá de quién recibís el pago."; return; }
+  if (parseNumero(monto) == null) { estado.classList.add("error"); estado.textContent = "Ingresá el importe recibido."; return; }
+
+  const nro = numeroDelCampo(inputRNumero, "recibo");
+  const datos = {
+    fecha: document.getElementById("rFecha").value.trim() || hoyTexto(),
+    numero: formatearNumeroDoc(nro),
+    cliente, recibimos, monto, concepto,
+    montoLetras: inputLetras.value.trim() || montoALetras(monto)
+  };
+
+  btn.disabled = true;
+  estado.style.color = "var(--cafe-medio)";
+  estado.textContent = "Generando...";
+  try {
+    const bytes = await generarPDF("recibo", datos);
+    descargar(bytes, `recibo_${datos.numero}_${nombreArchivoSeguro(cliente)}_${selloFecha()}.pdf`);
+    guardarProximoNumero("recibo", nro);
+    refrescarNumero(inputRNumero, "recibo");
     estado.style.color = ""; estado.textContent = "¡Listo! PDF descargado.";
   } catch (err) {
     estado.classList.add("error"); estado.textContent = "Error al generar: " + err.message;

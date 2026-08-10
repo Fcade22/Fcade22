@@ -1,6 +1,6 @@
 // Service worker: la app funciona sin internet, pero cuando HAY internet
 // siempre trae la version nueva (asi los cambios se ven al instante).
-const CACHE = "membrete-sl-v3";
+const CACHE = "membrete-sl-v4";
 const ASSETS = [
   "./",
   "./index.html",

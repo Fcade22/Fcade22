@@ -1,5 +1,5 @@
 {
-  "_comentario": "Configuracion de la hoja membretada SKIN LEATHER. Coordenadas en MILIMETROS desde la esquina superior izquierda de la hoja A4 (210 x 297 mm). El encabezado ocupa ~43 mm y el pie arranca a ~240 mm. La seccion 'tabla' controla la lista de productos con su precio.",
+  "_comentario": "Configuracion de los documentos de SKIN LEATHER. Coordenadas en MILIMETROS desde la esquina superior izquierda de la hoja A4 (210 x 297 mm). El encabezado del membrete ocupa ~43 mm y el pie arranca a ~240 mm: todo el contenido tiene que caer entre esos dos limites. La seccion 'tabla' controla el presupuesto y la seccion 'recibo' el recibo.",
 
   "plantilla_pdf": "plantillas/membrete.pdf",
   "tamano_hoja": "A4",
@@ -28,22 +28,74 @@
     "alineacion": "izquierda"
   },
 
+  "numero": {
+    "_comentario": "Numeracion correlativa. Cada documento lleva su propia serie y el contador vive en el celular (localStorage): si se reinstala la app o se usa otro telefono, arranca de nuevo y hay que reponer el numero a mano.",
+    "etiqueta": "N° ",
+    "x": 185,
+    "y": 64,
+    "tamano": 11,
+    "negrita": true,
+    "alineacion": "derecha",
+    "digitos": 4
+  },
+
   "tabla": {
+    "_comentario": "Cada producto ocupa el ancho entero de la hoja para su descripcion (y sigue abajo si es larga), y debajo va la linea 'cantidad x precio unitario' con el importe a la derecha. OJO: la app de escritorio (generador.py) NO usa este layout, sigue con el de cuatro columnas.",
     "x_producto": 25,
-    "x_cantidad": 112,
-    "x_unitario": 152,
     "x_importe": 185,
     "y_encabezado": 80,
-    "alto_fila": 9,
+    "alto_fila": 6.5,
+    "separacion_producto": 4.5,
     "tamano": 10,
+    "tamano_detalle": 9.5,
     "tamano_encabezado": 9,
-    "encabezado_producto": "PRODUCTO",
-    "encabezado_cantidad": "CANT.",
-    "encabezado_unitario": "P. UNITARIO",
+    "encabezado_producto": "DETALLE",
     "encabezado_importe": "IMPORTE",
     "mostrar_total": true,
     "etiqueta_total": "TOTAL",
     "nota": "LOS PRECIOS NO INCLUYEN EL IVA"
+  },
+
+  "forma_pago": {
+    "_comentario": "Casillero al pie del presupuesto.",
+    "etiqueta": "Forma de pago",
+    "y": 150,
+    "tamano_etiqueta": 10.5,
+    "tamano_valor": 11,
+    "alto_linea": 7
+  },
+
+  "recibo": {
+    "_comentario": "El recibo reusa 'fecha' y 'cliente'. Debajo van las tres lineas que pidio Gabriel: recibimos de / la suma de pesos / en concepto de.",
+    "x_izquierda": 25,
+    "x_derecha": 185,
+    "titulo": "RECIBO",
+    "y_titulo": 84,
+    "tamano_titulo": 17,
+    "espaciado_titulo": 3.2,
+    "tamano_etiqueta": 10.5,
+    "tamano_valor": 11,
+    "y_recibimos": 108,
+    "etiqueta_recibimos": "Recibimos de",
+    "y_suma": 126,
+    "etiqueta_suma": "la suma de pesos",
+    "y_monto": 140,
+    "y_concepto": 156,
+    "etiqueta_concepto": "en concepto de",
+    "alto_linea_concepto": 7
+  },
+
+  "firma": {
+    "_comentario": "Bloque de firma digital que va al pie del recibo y del presupuesto.",
+    "nombre": "Gabriel Levene",
+    "cargo": "Administrador",
+    "x_centro": 148,
+    "ancho_linea": 62,
+    "y_recibo": 205,
+    "y_presupuesto": 205,
+    "tamano_firma": 17,
+    "tamano_nombre": 10.5,
+    "tamano_cargo": 9
   },
 
   "carpeta_salida": "salida"

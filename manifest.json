@@ -1,7 +1,7 @@
 {
-  "name": "Hojas Membretadas — Skin Leather",
-  "short_name": "Membrete SL",
-  "description": "Genera hojas membretadas de Skin Leather en PDF.",
+  "name": "Documentos — Skin Leather",
+  "short_name": "Docs SL",
+  "description": "Genera presupuestos y recibos de Skin Leather en PDF.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
