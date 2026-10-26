@@ -1240,6 +1240,7 @@ const CAT = {
   precios: { mayorista: {}, minorista: {} },       // id -> numero, o null = "a consulta"
   base: { mayorista: null, minorista: null },      // de que version original salio cada lista
   deshacer: { mayorista: null, minorista: null },
+  ultimoPdf: { mayorista: null, minorista: null },  // { fecha, precios } del ultimo catalogo que genero Gabriel
   pdf: null
 };
 const CLAVE_CAT = "sl_cat_clave";
@@ -1308,25 +1309,34 @@ function pintarAviso(mensaje) {
   avisoCat("");
 }
 
+// El "ultimo catalogo" es el mas nuevo entre el ultimo PDF que genero Gabriel y la lista original
+// (la que viene con la app). Al generar un PDF, sus precios pasan a ser la referencia.
+function ultimoCatalogo(lista) {
+  const pdf = CAT.ultimoPdf[lista], of = CAT.oficial[lista];
+  if (pdf && (!of || pdf.fecha >= of.version)) return { tipo: "pdf", fecha: pdf.fecha, precios: pdf.precios };
+  return of ? { tipo: "original", fecha: of.version, precios: of.precios } : null;
+}
 function igualesAlUltimoCatalogo(lista) {
-  const of = CAT.oficial[lista];
-  if (!of) return false;
-  return CAT.datos.articulos.every(a => (CAT.precios[lista][a.id] ?? null) === (of.precios[a.id] ?? null));
+  const ref = ultimoCatalogo(lista);
+  if (!ref) return false;
+  return CAT.datos.articulos.every(a => (CAT.precios[lista][a.id] ?? null) === (ref.precios[a.id] ?? null));
 }
 
 // "Precios cargados": que lista hay en el telefono y el boton para traer la del ultimo catalogo.
 function pintarCargados() {
-  const lista = CAT.lista, of = CAT.oficial[lista];
+  const lista = CAT.lista, ref = ultimoCatalogo(lista);
   const hay = CAT.datos.articulos.some(a => CAT.precios[lista][a.id] != null);
   const caja = document.getElementById("catCargados");
   if (!hay) {
     caja.innerHTML = `Todavía no hay precios ${lista === "mayorista" ? "mayoristas" : "minoristas"} en este teléfono.<small>Tocá el botón de abajo para cargarlos.</small>`;
+  } else if (igualesAlUltimoCatalogo(lista) && ref.tipo === "pdf") {
+    caja.innerHTML = `Los del último catálogo que generaste<small>PDF ${lista} del ${fechaVersion(ref.fecha)}. El próximo aumento parte de estos.</small>`;
   } else if (igualesAlUltimoCatalogo(lista)) {
     caja.innerHTML = lista === "mayorista"
-      ? `Los del último catálogo mayorista<small>Catálogo del ${fechaVersion(of.version)}.</small>`
-      : `Los de la web<small>Precios de skinleather.store al ${fechaVersion(of.version)}.</small>`;
+      ? `Los del último catálogo mayorista<small>Catálogo del ${fechaVersion(ref.fecha)}.</small>`
+      : `Los de la web<small>Precios de skinleather.store al ${fechaVersion(ref.fecha)}.</small>`;
   } else {
-    caja.innerHTML = "Tus últimos precios<small>Los que cargaste o subiste en este teléfono. El próximo aumento parte de estos.</small>";
+    caja.innerHTML = "Tus últimos precios<small>Todavía no generaste un catálogo con estos. Quedan guardados y el próximo aumento parte de estos.</small>";
   }
   document.getElementById("catCargar").textContent = lista === "mayorista"
     ? "Cargar los precios del último catálogo mayorista" : "Cargar los precios de la web";
@@ -1420,6 +1430,7 @@ async function cargarCatalogo() {
   // Las listas son los ultimos precios de Gabriel y no tienen otra copia: se le pide al navegador
   // que no borre estos datos cuando le falta espacio (en una app instalada lo concede sin preguntar).
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  ["mayorista", "minorista"].forEach(lista => { CAT.ultimoPdf[lista] = leerJSON("sl_cat_ultimo_pdf_" + lista); });
   CAT.lista = leerGuardado("sl_cat_lista") === "minorista" ? "minorista" : "mayorista";
   document.getElementById("catVigencia").value = mesActual();
   document.getElementById("catRedondeo").value = leerGuardado("sl_cat_redondeo") || "1000";
@@ -1516,18 +1527,22 @@ document.getElementById("catAviso").addEventListener("click", e => {
 document.getElementById("catCargar").addEventListener("click", () => {
   if (!CAT.datos) return;
   if (CAT.lista === "minorista") { copiarPreciosWeb(); return; }
-  const of = CAT.oficial.mayorista;
-  if (!of) {
+  const ref = ultimoCatalogo("mayorista");
+  if (!ref) {
     CAT.pedirClave = true;
     pintarCargados();
     document.getElementById("catClaveTexto").focus();
     return;
   }
+  const cual = ref.tipo === "pdf" ? "del último catálogo que generaste" : "del último catálogo mayorista";
   if (igualesAlUltimoCatalogo("mayorista")) {
-    pintarAviso(`Ya están cargados los precios del último catálogo (${fechaVersion(of.version)}).`);
+    pintarAviso(`Ya están cargados los precios ${cual} (${fechaVersion(ref.fecha)}).`);
     return;
   }
-  if (confirm(`¿Reemplazar los precios de abajo por los del último catálogo mayorista (${fechaVersion(of.version)})? Podés deshacerlo.`)) usarOriginal();
+  if (!confirm(`¿Reemplazar los precios de abajo por los ${cual} (${fechaVersion(ref.fecha)})? Podés deshacerlo.`)) return;
+  if (ref.tipo === "original") { usarOriginal(); return; }
+  cambiarEnBloque({ precios: { ...ref.precios }, base: CAT.base.mayorista },
+    `Se cargaron los precios ${cual} (${fechaVersion(ref.fecha)}). Ahora podés subirlos con el porcentaje.`);
 });
 
 document.getElementById("catClaveOk").addEventListener("click", async () => {
@@ -1699,6 +1714,13 @@ document.getElementById("formCatalogo").addEventListener("submit", async (e) => 
     descargar(bytes, nombre);
     CAT.pdf = new File([bytes], nombre, { type: "application/pdf" });
     compartir.hidden = !(navigator.canShare && navigator.canShare({ files: [CAT.pdf] }));
+    // Los precios de este PDF pasan a ser "los del ultimo catalogo": a esos vuelve el boton de cargar.
+    if (!sinPrecios) {
+      const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      CAT.ultimoPdf[lista] = { fecha: iso, precios: { ...CAT.precios[lista] } };
+      guardar("sl_cat_ultimo_pdf_" + lista, JSON.stringify(CAT.ultimoPdf[lista]));
+      pintarCargados();
+    }
     estado.style.color = ""; estado.textContent = "¡Listo! Catálogo descargado.";
   } catch (err) {
     estado.classList.add("error"); estado.textContent = "Error al generar: " + err.message;
