@@ -1,0 +1,923 @@
+{
+ "version": "2026-10-26",
+ "plantilla": "catalogo/plantilla-2026-10-26.pdf",
+ "anio": "2026",
+ "pagina": {
+  "ancho": 1440.0,
+  "alto": 810.0
+ },
+ "textos": {
+  "tapa": {
+   "pagina": 0,
+   "x": 96.0,
+   "y": 114.0,
+   "tamano": 18.0,
+   "color": "#d49a6a",
+   "espaciado": 3
+  },
+  "intro": {
+   "pagina": 1,
+   "x": 96.0,
+   "y": 545.25,
+   "tamano": 18.0,
+   "color": "#6b625a",
+   "interlineado": 25.2,
+   "ancho": 1248
+  }
+ },
+ "pies": [
+  {
+   "pagina": 1,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": true
+  },
+  {
+   "pagina": 5,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 6,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 7,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 8,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 9,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 11,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 12,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 13,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 15,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 16,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 18,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 19,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 20,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 21,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 23,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 24,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 25,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 26,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 28,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 29,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 30,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 32,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  },
+  {
+   "pagina": 33,
+   "x": 96.0,
+   "y": 756.75,
+   "corto": false
+  }
+ ],
+ "pie": {
+  "tamano": 18,
+  "color": "#6b625a"
+ },
+ "precio": {
+  "etiqueta": {
+   "tamano": 21,
+   "color": "#6b625a"
+  },
+  "importe": {
+   "tamano": 25.5,
+   "color": "#8f4a26"
+  },
+  "consulta_sube": 4.5
+ },
+ "articulos": [
+  {
+   "id": "big-earn",
+   "nombre": "Big Earn",
+   "categoria": "Bancos",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/big-earn.webp?v=2026-10-26",
+   "pagina": 5,
+   "x": 114.75,
+   "y": 636.0,
+   "web": null,
+   "minorista": null
+  },
+  {
+   "id": "earn",
+   "nombre": "Earn",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 50 × 45 cm",
+   "foto": "catalogo/miniaturas/earn.webp?v=2026-10-26",
+   "pagina": 5,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "banco_earn",
+   "minorista": 690000
+  },
+  {
+   "id": "emma",
+   "nombre": "Emma",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 150 × 50 × 40 cm",
+   "foto": "catalogo/miniaturas/emma.webp?v=2026-10-26",
+   "pagina": 5,
+   "x": 962.25,
+   "y": 636.0,
+   "web": "banco_lina",
+   "minorista": 750000
+  },
+  {
+   "id": "macizo",
+   "nombre": "Macizo",
+   "categoria": "Bancos",
+   "detalle": "140 × 35 × 45 cm · incluye almohadón",
+   "foto": "catalogo/miniaturas/macizo.webp?v=2026-10-26",
+   "pagina": 6,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "banco_macizo",
+   "minorista": 490000
+  },
+  {
+   "id": "onix",
+   "nombre": "Onix",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 120 × 45 × 40 cm",
+   "foto": "catalogo/miniaturas/onix.webp?v=2026-10-26",
+   "pagina": 6,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "banco_onix",
+   "minorista": 490000
+  },
+  {
+   "id": "podio",
+   "nombre": "Podio",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 40 × 45 cm",
+   "foto": "catalogo/miniaturas/podio.webp?v=2026-10-26",
+   "pagina": 6,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "banco_podio",
+   "minorista": 490000
+  },
+  {
+   "id": "combinado-base-madera",
+   "nombre": "Combinado base madera",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 40 × 45 cm",
+   "foto": "catalogo/miniaturas/combinado-base-madera.webp?v=2026-10-26",
+   "pagina": 7,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "madera",
+   "minorista": 690000
+  },
+  {
+   "id": "combinado-base-metalica",
+   "nombre": "Combinado base metálica",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 40 × 45 cm",
+   "foto": "catalogo/miniaturas/combinado-base-metalica.webp?v=2026-10-26",
+   "pagina": 7,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "metalico",
+   "minorista": 650000
+  },
+  {
+   "id": "dual",
+   "nombre": "Dual",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 40 × 45 cm",
+   "foto": "catalogo/miniaturas/dual.webp?v=2026-10-26",
+   "pagina": 7,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "banco_dual",
+   "minorista": 590000
+  },
+  {
+   "id": "trenzado-simple",
+   "nombre": "Trenzado simple",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 40 × 45 cm",
+   "foto": "catalogo/miniaturas/trenzado-simple.webp?v=2026-10-26",
+   "pagina": 8,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "simple",
+   "minorista": 390000
+  },
+  {
+   "id": "trenzado-hexagonal",
+   "nombre": "Trenzado hexagonal",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 40 × 45 cm",
+   "foto": "catalogo/miniaturas/trenzado-hexagonal.webp?v=2026-10-26",
+   "pagina": 8,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "hexagonal",
+   "minorista": 410000
+  },
+  {
+   "id": "liner",
+   "nombre": "Liner",
+   "categoria": "Bancos",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/liner.webp?v=2026-10-26",
+   "pagina": 8,
+   "x": 962.25,
+   "y": 612.0,
+   "web": null,
+   "minorista": null
+  },
+  {
+   "id": "liner-con-canelon",
+   "nombre": "Liner con canelón",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 40 × 45 cm",
+   "foto": "catalogo/miniaturas/liner-con-canelon.webp?v=2026-10-26",
+   "pagina": 9,
+   "x": 114.75,
+   "y": 612.0,
+   "web": null,
+   "minorista": null
+  },
+  {
+   "id": "capitone-plinto",
+   "nombre": "Capitoné Plinto",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 150 × 45 × 45 cm",
+   "foto": "catalogo/miniaturas/capitone-plinto.webp?v=2026-10-26",
+   "pagina": 9,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "plinto",
+   "minorista": 650000
+  },
+  {
+   "id": "capitone-septum",
+   "nombre": "Capitoné Septum",
+   "categoria": "Bancos",
+   "detalle": "Medida estándar 140 × 50 × 45 cm",
+   "foto": "catalogo/miniaturas/capitone-septum.webp?v=2026-10-26",
+   "pagina": 9,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "septum",
+   "minorista": 720000
+  },
+  {
+   "id": "capitone-base-madera",
+   "nombre": "Capitoné base madera",
+   "categoria": "Banquetas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/capitone-base-madera.webp?v=2026-10-26",
+   "pagina": 11,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "banqueta_capitone_madera",
+   "minorista": 600000
+  },
+  {
+   "id": "capitone-base-metalica",
+   "nombre": "Capitoné base metálica",
+   "categoria": "Banquetas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/capitone-base-metalica.webp?v=2026-10-26",
+   "pagina": 11,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "banqueta_capitone_metalico",
+   "minorista": 580000
+  },
+  {
+   "id": "rodri",
+   "nombre": "Rodri",
+   "categoria": "Banquetas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/rodri.webp?v=2026-10-26",
+   "pagina": 11,
+   "x": 962.25,
+   "y": 636.0,
+   "web": "banqueta_rodri",
+   "minorista": 660000
+  },
+  {
+   "id": "manifiesto",
+   "nombre": "Manifiesto",
+   "categoria": "Banquetas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/manifiesto.webp?v=2026-10-26",
+   "pagina": 12,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "banqueta_manifiesto",
+   "minorista": 400000
+  },
+  {
+   "id": "roy-banqueta",
+   "nombre": "Roy",
+   "categoria": "Banquetas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/roy-banqueta.webp?v=2026-10-26",
+   "pagina": 12,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "banqueta_roy",
+   "minorista": 360000
+  },
+  {
+   "id": "pily",
+   "nombre": "Pily",
+   "categoria": "Banquetas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/pily.webp?v=2026-10-26",
+   "pagina": 13,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "sin_respaldo",
+   "minorista": 360000
+  },
+  {
+   "id": "pily-con-respaldo",
+   "nombre": "Pily con respaldo",
+   "categoria": "Banquetas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/pily-con-respaldo.webp?v=2026-10-26",
+   "pagina": 13,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "con_respaldo",
+   "minorista": 360000
+  },
+  {
+   "id": "vant",
+   "nombre": "Vant",
+   "categoria": "Puffs",
+   "detalle": "Ø 60 cm",
+   "foto": "catalogo/miniaturas/vant.webp?v=2026-10-26",
+   "pagina": 15,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "banco_vant",
+   "minorista": 550000
+  },
+  {
+   "id": "pausa",
+   "nombre": "Pausa",
+   "categoria": "Puffs",
+   "detalle": "Ø 50 cm",
+   "foto": "catalogo/miniaturas/pausa.webp?v=2026-10-26",
+   "pagina": 15,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "banco_pausa",
+   "minorista": 390000
+  },
+  {
+   "id": "canelonado",
+   "nombre": "Canelonado",
+   "categoria": "Puffs",
+   "detalle": "Ø 60 cm",
+   "foto": "catalogo/miniaturas/canelonado.webp?v=2026-10-26",
+   "pagina": 15,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "puff_canelonado",
+   "minorista": 410000
+  },
+  {
+   "id": "dado",
+   "nombre": "Dado",
+   "categoria": "Puffs",
+   "detalle": "70 × 70 × 40 cm",
+   "foto": "catalogo/miniaturas/dado.webp?v=2026-10-26",
+   "pagina": 16,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "puff_dado",
+   "minorista": 420000
+  },
+  {
+   "id": "kubo",
+   "nombre": "Kubo",
+   "categoria": "Puffs",
+   "detalle": "70 × 70 × 40 cm",
+   "foto": "catalogo/miniaturas/kubo.webp?v=2026-10-26",
+   "pagina": 16,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "puff_kubo",
+   "minorista": 450000
+  },
+  {
+   "id": "barcelona",
+   "nombre": "Barcelona",
+   "categoria": "Poltronas",
+   "detalle": "Prof. 75 · Alto 75 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/barcelona.webp?v=2026-10-26",
+   "pagina": 18,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "clasica",
+   "minorista": 1590000
+  },
+  {
+   "id": "barcelona-con-apoyapies",
+   "nombre": "Barcelona con apoyapiés",
+   "categoria": "Poltronas",
+   "detalle": "Poltrona con apoyapiés",
+   "foto": "catalogo/miniaturas/barcelona-con-apoyapies.webp?v=2026-10-26",
+   "pagina": 18,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "con_pie",
+   "minorista": 1990000
+  },
+  {
+   "id": "barcelona-doble",
+   "nombre": "Barcelona doble",
+   "categoria": "Poltronas",
+   "detalle": "2 cuerpos · 1,20 m",
+   "foto": "catalogo/miniaturas/barcelona-doble.webp?v=2026-10-26",
+   "pagina": 18,
+   "x": 962.25,
+   "y": 636.0,
+   "web": "doble",
+   "minorista": 2100000
+  },
+  {
+   "id": "bkf",
+   "nombre": "BKF",
+   "categoria": "Poltronas",
+   "detalle": "Ancho 89 · Prof. 75 · Alto 97 · Asiento 49 cm",
+   "foto": "catalogo/miniaturas/bkf.webp?v=2026-10-26",
+   "pagina": 19,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "bkf",
+   "minorista": 450000
+  },
+  {
+   "id": "lewys",
+   "nombre": "Lewys",
+   "categoria": "Poltronas",
+   "detalle": "Ancho 56 · Prof. 56 · Alto 83 · Asiento 43 cm",
+   "foto": "catalogo/miniaturas/lewys.webp?v=2026-10-26",
+   "pagina": 19,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "lewys",
+   "minorista": 580000
+  },
+  {
+   "id": "rouss",
+   "nombre": "Rouss",
+   "categoria": "Poltronas",
+   "detalle": "Ancho 72 · Prof. 70 · Alto 72 · Asiento 52 cm",
+   "foto": "catalogo/miniaturas/rouss.webp?v=2026-10-26",
+   "pagina": 19,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "rouss",
+   "minorista": 520000
+  },
+  {
+   "id": "donato",
+   "nombre": "Donato",
+   "categoria": "Poltronas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/donato.webp?v=2026-10-26",
+   "pagina": 20,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "donato",
+   "minorista": 650000
+  },
+  {
+   "id": "lenny",
+   "nombre": "Lenny",
+   "categoria": "Poltronas",
+   "detalle": "Ancho 65 · Prof. 65 · Alto 73 · Asiento 38 cm",
+   "foto": "catalogo/miniaturas/lenny.webp?v=2026-10-26",
+   "pagina": 20,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "lenny",
+   "minorista": 550000
+  },
+  {
+   "id": "paulina-cuero-completo",
+   "nombre": "Paulina cuero completo",
+   "categoria": "Poltronas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/paulina-cuero-completo.webp?v=2026-10-26",
+   "pagina": 21,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "cuero_completo",
+   "minorista": 650000
+  },
+  {
+   "id": "paulina-trenzada",
+   "nombre": "Paulina trenzada",
+   "categoria": "Poltronas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/paulina-trenzada.webp?v=2026-10-26",
+   "pagina": 21,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "trenzada",
+   "minorista": 650000
+  },
+  {
+   "id": "paulina-trenzado-hexagonal",
+   "nombre": "Paulina trenzado hexagonal",
+   "categoria": "Poltronas",
+   "detalle": "Medidas a consulta",
+   "foto": "catalogo/miniaturas/paulina-trenzado-hexagonal.webp?v=2026-10-26",
+   "pagina": 21,
+   "x": 962.25,
+   "y": 636.0,
+   "web": "trenzado_hexagonal",
+   "minorista": 650000
+  },
+  {
+   "id": "chesterfield",
+   "nombre": "Chesterfield",
+   "categoria": "Sillones",
+   "detalle": "Precio para 2,20 m de largo",
+   "foto": "catalogo/miniaturas/chesterfield.webp?v=2026-10-26",
+   "pagina": 23,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "chesterfield",
+   "minorista": 3550000
+  },
+  {
+   "id": "fullham",
+   "nombre": "Fullham",
+   "categoria": "Sillones",
+   "detalle": "Precio para 2,20 m de largo",
+   "foto": "catalogo/miniaturas/fullham.webp?v=2026-10-26",
+   "pagina": 23,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "fullham",
+   "minorista": 3190000
+  },
+  {
+   "id": "lennon",
+   "nombre": "Lennon",
+   "categoria": "Sillones",
+   "detalle": "Precio para 2,20 m de largo",
+   "foto": "catalogo/miniaturas/lennon.webp?v=2026-10-26",
+   "pagina": 23,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "lennon",
+   "minorista": 3509000
+  },
+  {
+   "id": "tom",
+   "nombre": "Tom",
+   "categoria": "Sillones",
+   "detalle": "Precio para 2,20 m de largo",
+   "foto": "catalogo/miniaturas/tom.webp?v=2026-10-26",
+   "pagina": 24,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "tom",
+   "minorista": 3290000
+  },
+  {
+   "id": "veta",
+   "nombre": "Veta",
+   "categoria": "Sillones",
+   "detalle": "Precio para 2,20 m de largo",
+   "foto": "catalogo/miniaturas/veta.webp?v=2026-10-26",
+   "pagina": 24,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "veta",
+   "minorista": 2900000
+  },
+  {
+   "id": "barklay",
+   "nombre": "Barklay",
+   "categoria": "Sillones",
+   "detalle": "Sillón individual",
+   "foto": "catalogo/miniaturas/barklay.webp?v=2026-10-26",
+   "pagina": 24,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "barklay",
+   "minorista": 2290000
+  },
+  {
+   "id": "evo",
+   "nombre": "Evo",
+   "categoria": "Sillones",
+   "detalle": "Sillón individual",
+   "foto": "catalogo/miniaturas/evo.webp?v=2026-10-26",
+   "pagina": 25,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "evo",
+   "minorista": 2300000
+  },
+  {
+   "id": "terra",
+   "nombre": "Terra",
+   "categoria": "Sillones",
+   "detalle": "Precio para 2,20 m de largo",
+   "foto": "catalogo/miniaturas/terra.webp?v=2026-10-26",
+   "pagina": 25,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "terra_grande",
+   "minorista": 3450000
+  },
+  {
+   "id": "terra-individual",
+   "nombre": "Terra individual",
+   "categoria": "Sillones",
+   "detalle": "Sillón individual",
+   "foto": "catalogo/miniaturas/terra-individual.webp?v=2026-10-26",
+   "pagina": 25,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "terra_individual",
+   "minorista": 2100000
+  },
+  {
+   "id": "bastonado",
+   "nombre": "Bastonado",
+   "categoria": "Sillones",
+   "detalle": "Precio para 2,20 m de largo",
+   "foto": "catalogo/miniaturas/bastonado.webp?v=2026-10-26",
+   "pagina": 26,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "batonado_grande",
+   "minorista": 3500000
+  },
+  {
+   "id": "bastonado-individual",
+   "nombre": "Bastonado individual",
+   "categoria": "Sillones",
+   "detalle": "Sillón individual",
+   "foto": "catalogo/miniaturas/bastonado-individual.webp?v=2026-10-26",
+   "pagina": 26,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "batonado_individual",
+   "minorista": 2150000
+  },
+  {
+   "id": "bali",
+   "nombre": "Bali",
+   "categoria": "Sillas",
+   "detalle": "Ancho 53 · Alto 75 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/bali.webp?v=2026-10-26",
+   "pagina": 28,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "bali",
+   "minorista": 390000
+  },
+  {
+   "id": "bali-trenzada",
+   "nombre": "Bali trenzada",
+   "categoria": "Sillas",
+   "detalle": "Ancho 53 · Alto 75 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/bali-trenzada.webp?v=2026-10-26",
+   "pagina": 28,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "bali_trenzada",
+   "minorista": 360000
+  },
+  {
+   "id": "classic",
+   "nombre": "Classic",
+   "categoria": "Sillas",
+   "detalle": "Ancho 50 · Alto 90 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/classic.webp?v=2026-10-26",
+   "pagina": 28,
+   "x": 962.25,
+   "y": 636.0,
+   "web": "classic",
+   "minorista": 590000
+  },
+  {
+   "id": "corteza",
+   "nombre": "Corteza",
+   "categoria": "Sillas",
+   "detalle": "Ancho 45 · Alto 75 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/corteza.webp?v=2026-10-26",
+   "pagina": 29,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "corteza",
+   "minorista": 390000
+  },
+  {
+   "id": "bar",
+   "nombre": "Bar",
+   "categoria": "Sillas",
+   "detalle": "Ancho 55 · Alto 75 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/bar.webp?v=2026-10-26",
+   "pagina": 29,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "bar",
+   "minorista": 360000
+  },
+  {
+   "id": "roy",
+   "nombre": "Roy",
+   "categoria": "Sillas",
+   "detalle": "Ancho 53 · Alto 78 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/roy.webp?v=2026-10-26",
+   "pagina": 30,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "roy",
+   "minorista": 360000
+  },
+  {
+   "id": "bronson",
+   "nombre": "Bronson",
+   "categoria": "Sillas",
+   "detalle": "Ancho 60 · Alto 80 cm",
+   "foto": "catalogo/miniaturas/bronson.webp?v=2026-10-26",
+   "pagina": 30,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "bronson",
+   "minorista": 620000
+  },
+  {
+   "id": "capitone",
+   "nombre": "Capitoné",
+   "categoria": "Sillas",
+   "detalle": "Ancho 40 · Alto 85 · Asiento 45 cm",
+   "foto": "catalogo/miniaturas/capitone.webp?v=2026-10-26",
+   "pagina": 30,
+   "x": 962.25,
+   "y": 612.0,
+   "web": "capitone",
+   "minorista": 590000
+  },
+  {
+   "id": "respaldo-completo",
+   "nombre": "Respaldo Completo",
+   "categoria": "Respaldos",
+   "detalle": "Medida 220 × 150 cm",
+   "foto": "catalogo/miniaturas/respaldo-completo.webp?v=2026-10-26",
+   "pagina": 32,
+   "x": 114.75,
+   "y": 612.0,
+   "web": "respaldo-tres-cuartos",
+   "minorista": 890000
+  },
+  {
+   "id": "respaldo-tres-cuartos",
+   "nombre": "Respaldo Tres cuartos",
+   "categoria": "Respaldos",
+   "detalle": "Medida 150 × 150 × 220 cm",
+   "foto": "catalogo/miniaturas/respaldo-tres-cuartos.webp?v=2026-10-26",
+   "pagina": 32,
+   "x": 538.5,
+   "y": 612.0,
+   "web": "respaldo-completo",
+   "minorista": 750000
+  },
+  {
+   "id": "respaldo-trenzado",
+   "nombre": "Respaldo Trenzado",
+   "categoria": "Respaldos",
+   "detalle": "Medida 150 × 220 cm",
+   "foto": "catalogo/miniaturas/respaldo-trenzado.webp?v=2026-10-26",
+   "pagina": 33,
+   "x": 114.75,
+   "y": 636.0,
+   "web": "respaldo-trenzado-comun",
+   "minorista": 690000
+  },
+  {
+   "id": "respaldo-trenzado-hexagonal",
+   "nombre": "Respaldo Trenzado hexagonal",
+   "categoria": "Respaldos",
+   "detalle": "Medida 150 × 220 cm",
+   "foto": "catalogo/miniaturas/respaldo-trenzado-hexagonal.webp?v=2026-10-26",
+   "pagina": 33,
+   "x": 538.5,
+   "y": 636.0,
+   "web": "respaldo-trenzado-hexagonal",
+   "minorista": 690000
+  }
+ ]
+}

@@ -233,6 +233,165 @@
     font-weight: 600;
   }
   .estado.error { color: var(--error); }
+
+  /* ---------- Catálogo ---------- */
+  select {
+    width: 100%;
+    padding: 13px 15px;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--texto);
+    background: var(--crema-input);
+    border: 1.5px solid var(--borde);
+    border-radius: 11px;
+    outline: none;
+  }
+  select:focus { border-color: var(--caramelo); box-shadow: 0 0 0 3px rgba(160, 122, 82, 0.15); }
+  .segmento {
+    display: flex;
+    gap: 6px;
+    padding: 5px;
+    background: var(--crema);
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+  }
+  .segmento button {
+    flex: 1;
+    padding: 11px 8px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cafe-medio);
+    background: transparent;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  .segmento button[aria-pressed="true"] {
+    background: #fff;
+    color: var(--cafe-oscuro);
+    box-shadow: 0 2px 8px rgba(59, 42, 29, 0.1);
+  }
+  .caja {
+    margin-bottom: 22px;
+    padding: 15px;
+    background: var(--crema);
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+  }
+  .caja select, .caja input { background: #fff; }
+  .aumento-fila { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .aumento-fila input { width: 96px; flex: none; text-align: center; }
+  .aumento-fila .pct { font-size: 17px; font-weight: 600; color: var(--cafe-medio); }
+  .aumento-fila .aplicar { margin-left: auto; }
+  .aumento-fila .redondeo { flex: none; margin: 0; font-size: 13px; text-transform: none; letter-spacing: 0; font-weight: 500; }
+  .aumento-fila select { flex: 1; padding: 10px 12px; }
+  .aplicar {
+    padding: 13px 18px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--crema);
+    background: var(--cafe);
+    border: none;
+    border-radius: 11px;
+    cursor: pointer;
+  }
+  .enlace {
+    padding: 4px 0;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cafe-medio);
+    background: none;
+    border: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .enlace[hidden] { display: none; }
+  .aviso {
+    margin: 10px 0 0;
+    padding: 11px 13px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--cafe);
+    background: var(--crema-input);
+    border: 1px dashed var(--caramelo);
+    border-radius: 10px;
+  }
+  .aviso:empty { display: none; }
+  .aviso.error { color: var(--error); border-color: var(--error); }
+  .aviso .enlace { margin-left: 4px; }
+  .lista-cabecera { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .lista-cabecera label { margin: 0; }
+  .cat-grupo {
+    margin: 20px 0 2px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--caramelo);
+  }
+  .articulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--borde);
+  }
+  .art-foto {
+    width: 56px;
+    height: 56px;
+    flex: none;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 9px;
+  }
+  .art-texto { flex: 1; min-width: 0; }
+  .art-nombre { display: block; font-size: 15px; font-weight: 600; color: var(--cafe-oscuro); }
+  .art-detalle {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--tenue);
+  }
+  .art-campo { position: relative; width: 124px; flex: none; }
+  .art-campo span {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: var(--tenue);
+    pointer-events: none;
+  }
+  .art-campo input { padding: 11px 12px 11px 26px; text-align: right; }
+  .art-campo input::placeholder { color: var(--tenue); font-size: 14px; }
+  .compartir {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cafe);
+    background: #fff;
+    border: 1.5px solid var(--cafe);
+    border-radius: 11px;
+    cursor: pointer;
+  }
+  .compartir[hidden] { display: none; }
+  /* En celulares angostos la lista necesita el ancho: foto + nombre + precio en un renglon. */
+  @media (max-width: 420px) {
+    #formCatalogo { padding-left: 16px; padding-right: 16px; }
+    .art-campo { width: 112px; }
+    .articulo { gap: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -245,6 +404,7 @@
     <div class="selector" role="tablist">
       <button type="button" role="tab" id="tabPresupuesto" aria-selected="true" data-doc="presupuesto">Presupuesto</button>
       <button type="button" role="tab" id="tabRecibo" aria-selected="false" data-doc="recibo">Recibo</button>
+      <button type="button" role="tab" id="tabCatalogo" aria-selected="false" data-doc="catalogo">Catálogo</button>
     </div>
 
     <!-- ============ PRESUPUESTO ============ -->
@@ -330,6 +490,63 @@
 
       <button type="submit" class="generar" id="btnGenerarRecibo">Generar PDF</button>
       <p class="estado" id="estadoRecibo"></p>
+    </form>
+
+    <!-- ============ CATÁLOGO ============ -->
+    <form id="formCatalogo" autocomplete="off" hidden>
+      <div class="campo">
+        <label>Lista de precios</label>
+        <div class="segmento" id="catListas">
+          <button type="button" data-lista="mayorista" aria-pressed="true">Mayorista</button>
+          <button type="button" data-lista="minorista" aria-pressed="false">Minorista</button>
+        </div>
+        <p class="aviso" id="catAviso"></p>
+      </div>
+
+      <div class="caja">
+        <label for="catPorcentaje">Subir todos los precios</label>
+        <div class="aumento-fila">
+          <input type="text" id="catPorcentaje" inputmode="decimal" placeholder="10">
+          <span class="pct">%</span>
+          <button type="button" class="aplicar" id="catAplicar">Aplicar</button>
+        </div>
+        <div class="aumento-fila">
+          <label for="catRedondeo" class="redondeo">Redondear a</label>
+          <select id="catRedondeo">
+            <option value="1">sin redondear</option>
+            <option value="100">$ 100</option>
+            <option value="1000" selected>$ 1.000</option>
+            <option value="10000">$ 10.000</option>
+          </select>
+        </div>
+        <p class="ayuda" id="catAumentoAyuda">Se aplica sobre los precios de abajo, que son los últimos que cargaste: quedan guardados en este teléfono. Para bajar, poné un número negativo (ej: -5).</p>
+        <button type="button" class="enlace" id="catDeshacer" hidden>Deshacer el último cambio</button>
+      </div>
+
+      <div class="lista-cabecera">
+        <label>Precio por artículo</label>
+        <button type="button" class="enlace" id="catOriginal">Volver a la lista original</button>
+      </div>
+      <p class="ayuda">Si queda vacío, el catálogo dice «a consulta».</p>
+      <div id="catArticulos"></div>
+      <button type="button" class="enlace" id="catWeb" hidden>Copiar los precios minoristas de la web</button>
+
+      <div class="campo" style="margin-top: 24px;">
+        <label for="catVigencia">Precios vigentes a</label>
+        <input type="text" id="catVigencia">
+      </div>
+      <div class="campo">
+        <label for="catIva">IVA</label>
+        <select id="catIva">
+          <option value="sin">Los precios no incluyen IVA</option>
+          <option value="con">Los precios incluyen IVA</option>
+          <option value="">No aclarar</option>
+        </select>
+      </div>
+
+      <button type="submit" class="generar" id="btnCatalogo">Generar catálogo PDF</button>
+      <p class="estado" id="estadoCatalogo"></p>
+      <button type="button" class="compartir" id="btnCompartir" hidden>Compartir el PDF</button>
     </form>
   </div>
 
@@ -822,10 +1039,11 @@ function refrescarNumero(input, tipo) {
 }
 
 // ---------- selector de documento ----------
-const TITULOS = { presupuesto: "Presupuesto", recibo: "Recibo" };
+const TITULOS = { presupuesto: "Presupuesto", recibo: "Recibo", catalogo: "Catálogo" };
 const formularios = {
   presupuesto: document.getElementById("formPresupuesto"),
-  recibo: document.getElementById("formRecibo")
+  recibo: document.getElementById("formRecibo"),
+  catalogo: document.getElementById("formCatalogo")
 };
 
 function mostrarDocumento(tipo) {
@@ -834,6 +1052,7 @@ function mostrarDocumento(tipo) {
   document.querySelectorAll(".selector button").forEach(b => {
     b.setAttribute("aria-selected", String(b.dataset.doc === tipo));
   });
+  if (tipo === "catalogo") iniciarCatalogo();
 }
 document.querySelectorAll(".selector button").forEach(b => {
   b.addEventListener("click", () => mostrarDocumento(b.dataset.doc));
@@ -940,6 +1159,430 @@ document.getElementById("formRecibo").addEventListener("submit", async (e) => {
     btn.disabled = false;
   }
 });
+
+// ================= CATALOGO =================
+// El catalogo ya viene disenado: catalogo/plantilla-<fecha>.pdf es el catalogo entero sin precios
+// (lo arma SkinLeather-ImageGen/src/catalogo/armar_plantilla_catalogo.py). La app escribe encima la
+// lista elegida. catalogo/productos.json dice que articulos hay y donde va cada precio.
+//
+// Las dos listas viven en el celular, como el contador de los documentos: cada cambio se guarda solo.
+// La lista mayorista original viaja CIFRADA (catalogo/mayorista.enc.json) porque este sitio es
+// publico y la web esconde los precios mayoristas a proposito. La clave llega una sola vez, con el
+// link que manda Francisco (...#clave=...), y queda guardada en el telefono.
+const CAT = {
+  datos: null,
+  lista: "mayorista",
+  oficial: { mayorista: null, minorista: null },   // { version, precios }
+  precios: { mayorista: {}, minorista: {} },       // id -> numero, o null = "a consulta"
+  base: { mayorista: null, minorista: null },      // de que version original salio cada lista
+  deshacer: { mayorista: null, minorista: null },
+  pdf: null
+};
+const CLAVE_CAT = "sl_cat_clave";
+const CACHE_CATALOGO = "sl-catalogo-v1";   // el mismo nombre que en sw.js
+
+function leerGuardado(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function guardar(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignorar */ } }
+function leerJSON(k) { try { return JSON.parse(leerGuardado(k)); } catch (e) { return null; } }
+
+function guardarLista(lista) {
+  guardar("sl_cat_" + lista, JSON.stringify({ base: CAT.base[lista], precios: CAT.precios[lista] }));
+}
+function textoPrecio(v) {
+  return v == null ? "" : v.toLocaleString("es-AR", { maximumFractionDigits: 2 });
+}
+function fechaVersion(v) {
+  const p = String(v || "").split("-");
+  return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : v;
+}
+function mesActual() {
+  const d = new Date();
+  return `${d.toLocaleDateString("es-AR", { month: "long" })} de ${d.getFullYear()}`;
+}
+
+function base64aBytes(s) {
+  s = s.replace(/-/g, "+").replace(/_/g, "/");
+  while (s.length % 4) s += "=";
+  return Uint8Array.from(atob(s), c => c.charCodeAt(0));
+}
+async function descifrarMayorista(clave) {
+  const res = await fetch("catalogo/mayorista.enc.json", { cache: "no-store" });
+  if (!res.ok) throw new Error("no se encontró la lista mayorista");
+  const j = await res.json();
+  const llave = await crypto.subtle.importKey("raw", base64aBytes(clave), "AES-GCM", false, ["decrypt"]);
+  const plano = await crypto.subtle.decrypt({ name: "AES-GCM", iv: base64aBytes(j.iv) }, llave, base64aBytes(j.datos));
+  return JSON.parse(new TextDecoder().decode(plano));
+}
+
+function avisoCat(html, error) {
+  const a = document.getElementById("catAviso");
+  a.classList.toggle("error", !!error);
+  a.innerHTML = html || "";
+}
+
+// Que decir arriba de la lista: si falta la original, o si hay una original mas nueva que la que
+// tiene el telefono (la usa solo si Gabriel lo pide: puede tener precios suyos que no quiere perder).
+function pintarAviso(mensaje) {
+  const lista = CAT.lista, of = CAT.oficial[lista];
+  if (mensaje) return avisoCat(mensaje);
+  if (lista === "mayorista" && CAT.errorClave)
+    return avisoCat("No se pudo abrir la lista mayorista original: la clave del link no coincide. Pedile a Francisco el link de nuevo.", true);
+  if (lista === "mayorista" && !of && !Object.keys(CAT.precios.mayorista).length)
+    return avisoCat("La lista mayorista original todavía no está en este teléfono: abrí acá el link que te mandó Francisco. También podés cargar los precios a mano.");
+  if (of && CAT.base[lista] !== of.version)
+    return avisoCat(`Hay una lista ${lista} original nueva (${fechaVersion(of.version)}).<button type="button" class="enlace" id="catUsarNueva">Usarla</button>`);
+  avisoCat("");
+}
+
+function pintarArticulos() {
+  const cont = document.getElementById("catArticulos");
+  cont.textContent = "";
+  let categoria = null;
+  CAT.datos.articulos.forEach(a => {
+    if (a.categoria !== categoria) {
+      categoria = a.categoria;
+      const g = document.createElement("div");
+      g.className = "cat-grupo";
+      g.textContent = categoria;
+      cont.appendChild(g);
+    }
+    const fila = document.createElement("div");
+    fila.className = "articulo";
+    fila.innerHTML = `
+      <img class="art-foto" alt="" loading="lazy">
+      <div class="art-texto"><span class="art-nombre"></span><span class="art-detalle"></span></div>
+      <div class="art-campo"><span>$</span><input type="text" inputmode="decimal" placeholder="a consulta"></div>`;
+    const foto = fila.querySelector(".art-foto");
+    if (a.foto) foto.src = a.foto;
+    else foto.remove();
+    fila.querySelector(".art-nombre").textContent = a.nombre;
+    // En el renglon no entra "Medida estandar 140 × 50 × 45 cm": van solo los numeros.
+    fila.querySelector(".art-detalle").textContent = a.detalle.replace(/^Medida (estándar )?/, "");
+    const input = fila.querySelector("input");
+    input.setAttribute("aria-label", `Precio de ${a.nombre} (${a.categoria})`);
+    input.value = textoPrecio(CAT.precios[CAT.lista][a.id]);
+    input.addEventListener("input", () => {
+      CAT.precios[CAT.lista][a.id] = parseNumero(input.value);
+      guardarLista(CAT.lista);
+    });
+    input.addEventListener("blur", () => { input.value = textoPrecio(CAT.precios[CAT.lista][a.id]); });
+    cont.appendChild(fila);
+  });
+}
+
+const IVA_INICIAL = { mayorista: "sin", minorista: "" };
+function pintarCatalogo(mensaje) {
+  const lista = CAT.lista;
+  document.querySelectorAll("#catListas button").forEach(b => {
+    b.setAttribute("aria-pressed", String(b.dataset.lista === lista));
+  });
+  document.getElementById("catDeshacer").hidden = !CAT.deshacer[lista];
+  document.getElementById("catWeb").hidden = lista !== "minorista";
+  const iva = leerJSON("sl_cat_iva") || IVA_INICIAL;
+  document.getElementById("catIva").value = iva[lista] != null ? iva[lista] : IVA_INICIAL[lista];
+  document.getElementById("btnCatalogo").textContent = `Generar catálogo ${lista}`;
+  document.getElementById("btnCompartir").hidden = true;
+  document.getElementById("estadoCatalogo").textContent = "";
+  pintarArticulos();
+  pintarAviso(mensaje);
+}
+
+// Antes de un cambio en bloque se guarda una copia, para el "Deshacer".
+function cambiarEnBloque(nuevos, mensaje) {
+  const lista = CAT.lista;
+  CAT.deshacer[lista] = { precios: { ...CAT.precios[lista] }, base: CAT.base[lista] };
+  CAT.precios[lista] = nuevos.precios;
+  CAT.base[lista] = nuevos.base;
+  guardarLista(lista);
+  pintarCatalogo(mensaje);
+}
+
+async function cargarCatalogo() {
+  const res = await fetch("catalogo/productos.json", { cache: "no-store" });
+  if (!res.ok) throw new Error("no se encontró la lista de artículos");
+  const d = CAT.datos = await res.json();
+  CAT.oficial.minorista = {
+    version: d.version,
+    precios: Object.fromEntries(d.articulos.map(a => [a.id, a.minorista == null ? null : a.minorista]))
+  };
+  const clave = leerGuardado(CLAVE_CAT);
+  if (clave) {
+    try { CAT.oficial.mayorista = await descifrarMayorista(clave); CAT.errorClave = false; }
+    catch (e) { CAT.errorClave = true; }
+  }
+  ["mayorista", "minorista"].forEach(lista => {
+    const g = leerJSON("sl_cat_" + lista), of = CAT.oficial[lista];
+    CAT.precios[lista] = g ? g.precios : (of ? { ...of.precios } : {});
+    CAT.base[lista] = g ? g.base : (of ? of.version : null);
+  });
+  // Las listas son los ultimos precios de Gabriel y no tienen otra copia: se le pide al navegador
+  // que no borre estos datos cuando le falta espacio (en una app instalada lo concede sin preguntar).
+  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  CAT.lista = leerGuardado("sl_cat_lista") === "minorista" ? "minorista" : "mayorista";
+  document.getElementById("catVigencia").value = mesActual();
+  document.getElementById("catRedondeo").value = leerGuardado("sl_cat_redondeo") || "1000";
+  pintarCatalogo();
+  precargarCatalogo(d);
+}
+
+// Baja el molde y las fuentes mientras Gabriel mira la lista, asi despues anda sin internet.
+// Tambien borra moldes viejos del celular (cada uno pesa unos 4 MB).
+function precargarCatalogo(d) {
+  [d.plantilla, "catalogo/DMSans-Regular.ttf", "catalogo/DMSans-SemiBold.ttf", "catalogo/fontkit.min.js"]
+    .forEach(u => fetch(u).catch(() => {}));
+  if (!("caches" in window)) return;
+  caches.open(CACHE_CATALOGO).then(c => c.keys().then(ks => ks.forEach(k => {
+    if (/plantilla-.*\.pdf$/.test(k.url) && !k.url.endsWith(d.plantilla)) c.delete(k);
+  }))).catch(() => {});
+}
+
+let catalogoListo = null;
+function iniciarCatalogo() {
+  if (!catalogoListo) {
+    catalogoListo = cargarCatalogo().catch(err => {
+      catalogoListo = null;
+      avisoCat(`No se pudo abrir el catálogo (${err.message}). Revisá la conexión y volvé a tocar «Catálogo».`, true);
+    });
+  }
+  return catalogoListo;
+}
+
+document.querySelectorAll("#catListas button").forEach(b => {
+  b.addEventListener("click", () => {
+    if (!CAT.datos) return;
+    CAT.lista = b.dataset.lista;
+    guardar("sl_cat_lista", CAT.lista);
+    pintarCatalogo();
+  });
+});
+
+document.getElementById("catRedondeo").addEventListener("change", e => guardar("sl_cat_redondeo", e.target.value));
+document.getElementById("catIva").addEventListener("change", e => {
+  const iva = leerJSON("sl_cat_iva") || { ...IVA_INICIAL };
+  iva[CAT.lista] = e.target.value;
+  guardar("sl_cat_iva", JSON.stringify(iva));
+});
+
+document.getElementById("catAplicar").addEventListener("click", () => {
+  if (!CAT.datos) return;
+  const campo = document.getElementById("catPorcentaje");
+  // El porcentaje se lee aparte: "10.5" tiene que ser 10,5 % y no 105 %.
+  const pct = Number(String(campo.value).trim().replace("%", "").replace(",", "."));
+  if (!campo.value.trim() || !Number.isFinite(pct) || pct === 0) {
+    pintarAviso("Escribí cuánto querés subir, por ejemplo 10.");
+    return;
+  }
+  if (pct <= -100) { pintarAviso("Eso dejaría los precios en cero o negativos."); return; }
+  if (Math.abs(pct) > 50 && !confirm(`¿Seguro? Vas a cambiar todos los precios un ${pct} %.`)) return;
+  const paso = Number(document.getElementById("catRedondeo").value) || 1;
+  const nuevos = {};
+  let cuantos = 0;
+  Object.entries(CAT.precios[CAT.lista]).forEach(([id, v]) => {
+    if (v == null) { nuevos[id] = null; return; }
+    nuevos[id] = Math.round(v * (1 + pct / 100) / paso) * paso;
+    cuantos++;
+  });
+  if (!cuantos) { pintarAviso("Esta lista todavía no tiene precios para cambiar."); return; }
+  campo.value = "";
+  const verbo = pct > 0 ? "Subieron" : "Bajaron";
+  cambiarEnBloque({ precios: nuevos, base: CAT.base[CAT.lista] },
+    `${verbo} ${cuantos} precios un ${String(Math.abs(pct)).replace(".", ",")} %. Revisalos abajo antes de generar el catálogo.`);
+});
+
+document.getElementById("catDeshacer").addEventListener("click", () => {
+  const lista = CAT.lista, copia = CAT.deshacer[lista];
+  if (!copia) return;
+  CAT.precios[lista] = copia.precios;
+  CAT.base[lista] = copia.base;
+  CAT.deshacer[lista] = null;
+  guardarLista(lista);
+  pintarCatalogo("Listo, se deshizo el último cambio.");
+});
+
+function usarOriginal() {
+  const of = CAT.oficial[CAT.lista];
+  if (!of) { pintarAviso(); return; }
+  cambiarEnBloque({ precios: { ...of.precios }, base: of.version },
+    `Se cargó la lista ${CAT.lista} original del ${fechaVersion(of.version)}.`);
+}
+document.getElementById("catOriginal").addEventListener("click", () => {
+  if (!CAT.datos) return;
+  if (!CAT.oficial[CAT.lista]) { pintarAviso(); return; }
+  if (confirm(`¿Reemplazar todos los precios por la lista ${CAT.lista} original del ${fechaVersion(CAT.oficial[CAT.lista].version)}?`)) usarOriginal();
+});
+document.getElementById("catAviso").addEventListener("click", e => {
+  if (e.target.id === "catUsarNueva") usarOriginal();
+});
+
+// Trae los precios minoristas que hoy muestra skinleather.store (son publicos).
+document.getElementById("catWeb").addEventListener("click", async () => {
+  try {
+    const res = await fetch("https://firestore.googleapis.com/v1/projects/skinleather-def75/databases/(default)/documents/prices?pageSize=300", { cache: "no-store" });
+    if (!res.ok) throw new Error();
+    const web = {};
+    ((await res.json()).documents || []).forEach(doc => {
+      const f = doc.fields && doc.fields.minorista;
+      const n = f && Number(f.integerValue != null ? f.integerValue : f.doubleValue);
+      if (n > 0) web[doc.name.split("/").pop()] = n;
+    });
+    const nuevos = { ...CAT.precios.minorista };
+    let cuantos = 0;
+    CAT.datos.articulos.forEach(a => {
+      if (a.web && web[a.web] != null) { nuevos[a.id] = web[a.web]; cuantos++; }
+    });
+    cambiarEnBloque({ precios: nuevos, base: CAT.base.minorista }, `Se copiaron ${cuantos} precios de skinleather.store.`);
+  } catch (e) {
+    pintarAviso("No se pudo leer la web. Revisá la conexión.");
+  }
+});
+
+function cargarScript(src) {
+  return new Promise((ok, mal) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = ok;
+    s.onerror = () => mal(new Error("no se pudo cargar " + src));
+    document.head.appendChild(s);
+  });
+}
+function traerBytes(url) {
+  return fetch(url).then(r => {
+    if (!r.ok) throw new Error("falta " + url);
+    return r.arrayBuffer();
+  });
+}
+
+function textoIntro(mayorista, vigencia, iva) {
+  const v = vigencia ? `, vigente a ${vigencia}` : "";
+  const i = iva === "sin" ? " (sin IVA)" : iva === "con" ? " (IVA incluido)" : "";
+  return `Cada modelo indica su paleta de cueros, sus terminaciones y su precio ${mayorista ? "mayorista " : ""}` +
+    `en pesos argentinos${v}${i}. Para ver cada modelo en todos sus cueros y terminaciones, entrá a ` +
+    `skinleather.store. Imágenes ilustrativas: el tono del cuero puede variar según la pantalla y la partida.`;
+}
+
+async function generarCatalogo(lista, opciones) {
+  if (typeof PDFLib === "undefined") throw new Error("no se pudo cargar el generador (revisá tu conexión)");
+  if (typeof fontkit === "undefined") await cargarScript("catalogo/fontkit.min.js");
+  const d = CAT.datos, may = lista === "mayorista";
+  const [molde, regular, semi] = await Promise.all([
+    traerBytes(d.plantilla), traerBytes("catalogo/DMSans-Regular.ttf"), traerBytes("catalogo/DMSans-SemiBold.ttf")
+  ]);
+  const pdf = await PDFLib.PDFDocument.load(molde);
+  pdf.registerFontkit(fontkit);
+  const fR = await pdf.embedFont(regular), fS = await pdf.embedFont(semi);
+  const paginas = pdf.getPages(), alto = d.pagina.alto;
+  // Coordenadas de productos.json: puntos desde arriba a la izquierda, y = linea de base.
+  const escribir = (pag, t, x, y, tam, font, color) =>
+    paginas[pag].drawText(t, { x, y: alto - y, size: tam, font, color: hexToRgb(color) });
+
+  // Tapa: el renglon chico de arriba, en mayusculas espaciadas.
+  const tapa = d.textos.tapa;
+  let x = tapa.x;
+  for (const c of (may ? `Catálogo mayorista ${d.anio}` : `Catálogo ${d.anio}`).toUpperCase()) {
+    escribir(tapa.pagina, c, x, tapa.y, tapa.tamano, fS, tapa.color);
+    x += fS.widthOfTextAtSize(c, tapa.tamano) + tapa.espaciado;
+  }
+
+  // Intro: el parrafo con la vigencia y el IVA.
+  const intro = d.textos.intro;
+  envolverTexto(textoIntro(may, opciones.vigencia, opciones.iva), fR, intro.tamano, intro.ancho / MM)
+    .forEach((l, i) => escribir(intro.pagina, l, intro.x, intro.y + i * intro.interlineado, intro.tamano, fR, intro.color));
+
+  d.pies.forEach(p => {
+    const t = `Skin Leather · ${may ? "Catálogo mayorista" : "Catálogo"} ${d.anio}` + (p.corto ? "" : " · Precios en pesos argentinos");
+    escribir(p.pagina, t, p.x, p.y, d.pie.tamano, fR, d.pie.color);
+  });
+
+  // Cada precio: "Mayorista $ 500.000", o "Precio mayorista a consulta" un poco mas arriba (asi
+  // estaba en el catalogo original: ese renglon no lleva el importe grande).
+  const pr = d.precio;
+  d.articulos.forEach(a => {
+    const v = CAT.precios[lista][a.id];
+    if (v == null) {
+      escribir(a.pagina, may ? "Precio mayorista a consulta" : "Precio a consulta",
+        a.x, a.y - pr.consulta_sube, pr.etiqueta.tamano, fR, pr.etiqueta.color);
+      return;
+    }
+    const etiqueta = may ? "Mayorista " : "Precio ";
+    escribir(a.pagina, etiqueta, a.x, a.y, pr.etiqueta.tamano, fR, pr.etiqueta.color);
+    escribir(a.pagina, formatearNumero(v, "$"), a.x + fR.widthOfTextAtSize(etiqueta, pr.etiqueta.tamano),
+      a.y, pr.importe.tamano, fS, pr.importe.color);
+  });
+
+  pdf.setTitle(`Catálogo ${lista} Skin Leather ${d.anio}`);
+  pdf.setAuthor("Skin Leather");
+  return await pdf.save();
+}
+
+document.getElementById("formCatalogo").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const estado = document.getElementById("estadoCatalogo");
+  const btn = document.getElementById("btnCatalogo");
+  const compartir = document.getElementById("btnCompartir");
+  estado.classList.remove("error");
+  compartir.hidden = true;
+  if (!CAT.datos) { await iniciarCatalogo(); if (!CAT.datos) return; }
+  document.activeElement && document.activeElement.blur();   // asienta el precio que se estaba escribiendo
+
+  const lista = CAT.lista;
+  const conPrecio = CAT.datos.articulos.filter(a => CAT.precios[lista][a.id] != null).length;
+  if (!conPrecio && !confirm("Ningún artículo tiene precio: el catálogo va a decir «a consulta» en todos. ¿Generarlo igual?")) return;
+
+  btn.disabled = true;
+  estado.style.color = "var(--cafe-medio)";
+  estado.textContent = "Armando el catálogo...";
+  try {
+    const bytes = await generarCatalogo(lista, {
+      vigencia: document.getElementById("catVigencia").value.trim(),
+      iva: document.getElementById("catIva").value
+    });
+    const d = new Date();
+    const nombre = `Catalogo ${lista} Skin Leather ${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}.pdf`;
+    descargar(bytes, nombre);
+    CAT.pdf = new File([bytes], nombre, { type: "application/pdf" });
+    compartir.hidden = !(navigator.canShare && navigator.canShare({ files: [CAT.pdf] }));
+    estado.style.color = ""; estado.textContent = "¡Listo! Catálogo descargado.";
+  } catch (err) {
+    estado.classList.add("error"); estado.textContent = "Error al generar: " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// Mandarlo directo por WhatsApp (o lo que tenga el celular), sin buscarlo en Descargas.
+document.getElementById("btnCompartir").addEventListener("click", () => {
+  if (CAT.pdf) navigator.share({ files: [CAT.pdf], title: CAT.pdf.name }).catch(() => {});
+});
+
+// El link de Francisco trae la clave de la lista mayorista despues del "#". Se guarda, se borra de
+// la barra (no queda en el historial) y se abre el catalogo. La marca de sesion es por si la app se
+// actualiza justo al abrir el link: el service worker nuevo recarga la pagina y el "#" ya no esta.
+// Si la app ya estaba abierta, abrir el link solo cambia el "#": por eso tambien "hashchange".
+function revisarLinkClave() {
+  const m = location.hash.match(/clave=([\w-]+)/);
+  if (m) {
+    guardar(CLAVE_CAT, m[1]);
+    history.replaceState(null, "", location.pathname + location.search);
+    try { sessionStorage.setItem("sl_cat_link", String(Date.now())); } catch (e) { /* ignorar */ }
+    catalogoListo = null;   // si ya estaba abierto, se vuelve a leer con la clave nueva
+  }
+  // La marca vence sola: la recarga del service worker puede llegar despues de mostrar la lista.
+  let vinoDelLink = !!m;
+  try { vinoDelLink = vinoDelLink || Date.now() - Number(sessionStorage.getItem("sl_cat_link")) < 15000; } catch (e) { /* ignorar */ }
+  if (!vinoDelLink) return;
+  mostrarDocumento("catalogo");
+  iniciarCatalogo().then(() => {
+    const of = CAT.oficial.mayorista;
+    if (!of) return;
+    CAT.lista = "mayorista";
+    guardar("sl_cat_lista", CAT.lista);
+    // Abrir el link es pedir esa lista: si el telefono tenia otra, se reemplaza (queda el "Deshacer").
+    if (CAT.base.mayorista !== of.version) usarOriginal();
+    else pintarCatalogo(`Lista mayorista cargada (${fechaVersion(of.version)}).`);
+  });
+}
+revisarLinkClave();
+window.addEventListener("hashchange", revisarLinkClave);
 
 // Registrar el service worker y actualizar la app sola cuando hay version nueva.
 if ("serviceWorker" in navigator) {

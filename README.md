@@ -15,6 +15,37 @@ membrete de la casa. Son dos, y se eligen con las pestañas de arriba:
 Los dos llevan **numeración correlativa** y salen firmados al pie por
 **Gabriel Levene · Administrador**.
 
+La tercera pestaña es el **Catálogo**: arma el catálogo de productos en PDF (el mismo
+diseño del catálogo mayorista) con los precios que se elijan.
+
+### El catálogo
+
+- **Mayorista o minorista**: cada lista tiene sus propios precios. Mayorista dice
+  "Catálogo mayorista 2026" y "Mayorista $ …"; minorista dice "Catálogo 2026" y "Precio $ …".
+- **Subir todos los precios**: un porcentaje para toda la lista (negativo para bajar), con
+  redondeo a $ 1.000 por defecto. "Deshacer el último cambio" vuelve atrás.
+- **Precio por artículo**: cada mueble se puede cambiar a mano. Vacío = "a consulta".
+- **Vigencia e IVA**: van en el párrafo de la intro. Por defecto la mayorista dice "sin IVA"
+  (como los presupuestos) y la minorista no aclara.
+- **Copiar los precios minoristas de la web**: trae los que hoy muestra skinleather.store.
+- Al generar, el PDF se descarga y aparece **Compartir el PDF** (WhatsApp, mail…).
+
+Las listas viven en el celular, como la numeración: cada cambio se guarda solo (la app pide
+almacenamiento persistente para que Android no lo borre) y el próximo aumento se aplica sobre
+los últimos precios cargados. No pasan de un teléfono a otro. Cada artículo lleva su miniatura
+(`catalogo/miniaturas/`, las genera el mismo script del molde).
+
+**La lista mayorista original va cifrada** (`catalogo/mayorista.enc.json`): este sitio es
+público y la web esconde los precios mayoristas a propósito. Para cargarla en un teléfono
+hay que abrir **una vez** el link con la clave (`…/Fcade22/#clave=…`); la clave no viaja
+a ningún servidor. La guarda Francisco en
+`SkinLeather-ImageGen/src/catalogo/lista_mayorista.key` (fuera de este repo).
+
+El catálogo se escribe sobre un **molde**: `catalogo/plantilla-<fecha>.pdf` es el catálogo
+entero sin precios, y `catalogo/productos.json` dice qué artículos hay y dónde va cada
+precio. Los dos los genera `SkinLeather-ImageGen/src/catalogo/armar_plantilla_catalogo.py`;
+si se agregan muebles o cambia el diseño, se rehace el catálogo base y se corre ese script.
+
 ### La numeración
 
 Cada documento tiene su propia serie (los presupuestos por un lado, los recibos por
@@ -96,7 +127,9 @@ que reajustar las coordenadas.
 
 ## Archivos
 
-- `index.html` — la app web entera (los dos formularios + la generación del PDF).
+- `index.html` — la app web entera (los tres formularios + la generación de los PDF).
+- `catalogo/` — molde del catálogo, lista de artículos, lista mayorista cifrada, fuentes
+  DM Sans y `fontkit.min.js` (lo que necesita pdf-lib para usar esas fuentes).
 - `app.py` — la app de escritorio (solo presupuestos).
 - `generador.py` — la lógica que arma el PDF (la usa la app de escritorio).
 - `config.json` — posiciones, fuentes, colores, encabezados y firma.
