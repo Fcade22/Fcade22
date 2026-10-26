@@ -22,6 +22,11 @@ diseño del catálogo mayorista) con los precios que se elijan.
 
 - **Mayorista o minorista**: cada lista tiene sus propios precios. Mayorista dice
   "Catálogo mayorista 2026" y "Mayorista $ …"; minorista dice "Catálogo 2026" y "Precio $ …".
+- **Precios cargados**: dice qué lista hay en el teléfono (la del último catálogo o "tus últimos
+  precios") y tiene el botón para cargar los del último catálogo mayorista (o los de la web, en
+  minorista). Si el teléfono no tiene la clave, el botón la pide.
+- **No mostrar precios**: el catálogo sale con "Consultar precio mayorista" en todos los muebles
+  y la intro invita a consultar por WhatsApp.
 - **Subir todos los precios**: un porcentaje para toda la lista (negativo para bajar), con
   redondeo a $ 1.000 por defecto. "Deshacer el último cambio" vuelve atrás.
 - **Precio por artículo**: cada mueble se puede cambiar a mano. Vacío = "a consulta".
@@ -36,9 +41,10 @@ los últimos precios cargados. No pasan de un teléfono a otro. Cada artículo l
 (`catalogo/miniaturas/`, las genera el mismo script del molde).
 
 **La lista mayorista original va cifrada** (`catalogo/mayorista.enc.json`): este sitio es
-público y la web esconde los precios mayoristas a propósito. Para cargarla en un teléfono
-hay que abrir **una vez** el link con la clave (`…/Fcade22/#clave=…`); la clave no viaja
-a ningún servidor. La guarda Francisco en
+público y la web esconde los precios mayoristas a propósito. La clave son cuatro palabras: se
+escriben **una vez** en la app (botón "Cargar los precios del último catálogo mayorista") o se
+abre el link `…/Fcade22/#clave=palabra-palabra-palabra-palabra`. Queda guardada en el teléfono y
+no viaja a ningún servidor. La guarda Francisco en
 `SkinLeather-ImageGen/src/catalogo/lista_mayorista.key` (fuera de este repo).
 
 El catálogo se escribe sobre un **molde**: `catalogo/plantilla-<fecha>.pdf` es el catálogo

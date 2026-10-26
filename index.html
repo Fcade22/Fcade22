@@ -386,6 +386,53 @@
     cursor: pointer;
   }
   .compartir[hidden] { display: none; }
+  .cargados { margin: 0 0 12px; font-size: 15px; font-weight: 600; color: var(--cafe-oscuro); }
+  .cargados small { display: block; margin-top: 2px; font-size: 13px; font-weight: 400; color: var(--tenue); }
+  .cargar {
+    width: 100%;
+    padding: 13px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cafe);
+    background: #fff;
+    border: 1.5px solid var(--cafe);
+    border-radius: 11px;
+    cursor: pointer;
+  }
+  .clave { margin-top: 16px; }
+  .clave[hidden] { display: none; }
+  .clave input { flex: 1; width: auto; text-align: left; }
+  .tilde {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 26px 0 18px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--cafe-oscuro);
+    background: var(--crema);
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+    cursor: pointer;
+  }
+  .tilde input {
+    width: 22px;
+    height: 22px;
+    margin: 1px 0 0;
+    padding: 0;
+    flex: none;
+    border: none;
+    box-shadow: none;
+    accent-color: var(--cafe);
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+  .tilde small { display: block; margin-top: 3px; font-size: 13px; font-weight: 400; color: var(--tenue); }
+  #catDatosPrecio[hidden] { display: none; }
   /* En celulares angostos la lista necesita el ancho: foto + nombre + precio en un renglon. */
   @media (max-width: 420px) {
     #formCatalogo { padding-left: 16px; padding-right: 16px; }
@@ -504,6 +551,20 @@
       </div>
 
       <div class="caja">
+        <label>Precios cargados</label>
+        <p class="cargados" id="catCargados"></p>
+        <button type="button" class="cargar" id="catCargar">Cargar los precios del último catálogo mayorista</button>
+        <div class="clave" id="catClave" hidden>
+          <label for="catClaveTexto">Clave de la lista mayorista</label>
+          <div class="aumento-fila">
+            <input type="text" id="catClaveTexto" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="cuatro palabras">
+            <button type="button" class="aplicar" id="catClaveOk">Cargar</button>
+          </div>
+          <p class="ayuda">Te la pasa Francisco. Se escribe una sola vez: queda guardada en este teléfono.</p>
+        </div>
+      </div>
+
+      <div class="caja">
         <label for="catPorcentaje">Subir todos los precios</label>
         <div class="aumento-fila">
           <input type="text" id="catPorcentaje" inputmode="decimal" placeholder="10">
@@ -523,25 +584,27 @@
         <button type="button" class="enlace" id="catDeshacer" hidden>Deshacer el último cambio</button>
       </div>
 
-      <div class="lista-cabecera">
-        <label>Precio por artículo</label>
-        <button type="button" class="enlace" id="catOriginal">Volver a la lista original</button>
-      </div>
-      <p class="ayuda">Si queda vacío, el catálogo dice «a consulta».</p>
+      <label>Precio por artículo</label>
+      <p class="ayuda">Si queda vacío, el catálogo dice «Consultar precio».</p>
       <div id="catArticulos"></div>
-      <button type="button" class="enlace" id="catWeb" hidden>Copiar los precios minoristas de la web</button>
 
-      <div class="campo" style="margin-top: 24px;">
-        <label for="catVigencia">Precios vigentes a</label>
-        <input type="text" id="catVigencia">
-      </div>
-      <div class="campo">
-        <label for="catIva">IVA</label>
-        <select id="catIva">
-          <option value="sin">Los precios no incluyen IVA</option>
-          <option value="con">Los precios incluyen IVA</option>
-          <option value="">No aclarar</option>
-        </select>
+      <label class="tilde" for="catSinPrecios">
+        <input type="checkbox" id="catSinPrecios">
+        <span>No mostrar precios<small id="catSinPreciosAyuda">Todos los muebles dicen «Consultar precio mayorista».</small></span>
+      </label>
+      <div id="catDatosPrecio">
+        <div class="campo">
+          <label for="catVigencia">Precios vigentes a</label>
+          <input type="text" id="catVigencia">
+        </div>
+        <div class="campo">
+          <label for="catIva">IVA</label>
+          <select id="catIva">
+            <option value="sin">Los precios no incluyen IVA</option>
+            <option value="con">Los precios incluyen IVA</option>
+            <option value="">No aclarar</option>
+          </select>
+        </div>
       </div>
 
       <button type="submit" class="generar" id="btnCatalogo">Generar catálogo PDF</button>
@@ -785,7 +848,8 @@ function textoEspaciado(page, t, xCentroMm, ymm, size, font, color, espaciado, a
 // Parte un texto en lineas que entren en 'anchoMm'.
 function envolverTexto(t, font, size, anchoMm) {
   const maxAncho = anchoMm * MM;
-  const palabras = String(t || "").trim().split(/\s+/).filter(Boolean);
+  // Solo corta en espacios comunes: el espacio duro ( ) mantiene juntos, por ejemplo, un telefono.
+  const palabras = String(t || "").trim().split(/[ \t\r\n]+/).filter(Boolean);
   const lineas = [];
   let actual = "";
   palabras.forEach(p => {
@@ -1205,11 +1269,23 @@ function base64aBytes(s) {
   while (s.length % 4) s += "=";
   return Uint8Array.from(atob(s), c => c.charCodeAt(0));
 }
+// La clave son cuatro palabras: "Suela Nogal-tango  faro" vale lo mismo que "suela-nogal-tango-faro"
+// (igual que normalizar_clave en armar_plantilla_catalogo.py).
+function normalizarClave(t) {
+  return (String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().match(/[a-z0-9]+/g) || []).join("-");
+}
 async function descifrarMayorista(clave) {
   const res = await fetch("catalogo/mayorista.enc.json", { cache: "no-store" });
   if (!res.ok) throw new Error("no se encontró la lista mayorista");
   const j = await res.json();
-  const llave = await crypto.subtle.importKey("raw", base64aBytes(clave), "AES-GCM", false, ["decrypt"]);
+  let llave;
+  if (j.kdf === "PBKDF2-SHA256") {
+    const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(normalizarClave(clave)), "PBKDF2", false, ["deriveKey"]);
+    llave = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: base64aBytes(j.sal), iterations: j.vueltas, hash: "SHA-256" },
+      base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  } else {
+    llave = await crypto.subtle.importKey("raw", base64aBytes(clave), "AES-GCM", false, ["decrypt"]);
+  }
   const plano = await crypto.subtle.decrypt({ name: "AES-GCM", iv: base64aBytes(j.iv) }, llave, base64aBytes(j.datos));
   return JSON.parse(new TextDecoder().decode(plano));
 }
@@ -1220,18 +1296,41 @@ function avisoCat(html, error) {
   a.innerHTML = html || "";
 }
 
-// Que decir arriba de la lista: si falta la original, o si hay una original mas nueva que la que
-// tiene el telefono (la usa solo si Gabriel lo pide: puede tener precios suyos que no quiere perder).
+// Que decir arriba de la lista: si la clave guardada ya no sirve, o si hay un catalogo mas nuevo que
+// el que tiene el telefono (se usa solo si Gabriel lo pide: puede tener precios suyos que no quiere perder).
 function pintarAviso(mensaje) {
   const lista = CAT.lista, of = CAT.oficial[lista];
   if (mensaje) return avisoCat(mensaje);
   if (lista === "mayorista" && CAT.errorClave)
-    return avisoCat("No se pudo abrir la lista mayorista original: la clave del link no coincide. Pedile a Francisco el link de nuevo.", true);
-  if (lista === "mayorista" && !of && !Object.keys(CAT.precios.mayorista).length)
-    return avisoCat("La lista mayorista original todavía no está en este teléfono: abrí acá el link que te mandó Francisco. También podés cargar los precios a mano.");
+    return avisoCat("La clave de la lista mayorista que estaba guardada ya no sirve: escribí la nueva en «Precios cargados».", true);
   if (of && CAT.base[lista] !== of.version)
-    return avisoCat(`Hay una lista ${lista} original nueva (${fechaVersion(of.version)}).<button type="button" class="enlace" id="catUsarNueva">Usarla</button>`);
+    return avisoCat(`Hay un catálogo ${lista} más nuevo (${fechaVersion(of.version)}).<button type="button" class="enlace" id="catUsarNueva">Usar sus precios</button>`);
   avisoCat("");
+}
+
+function igualesAlUltimoCatalogo(lista) {
+  const of = CAT.oficial[lista];
+  if (!of) return false;
+  return CAT.datos.articulos.every(a => (CAT.precios[lista][a.id] ?? null) === (of.precios[a.id] ?? null));
+}
+
+// "Precios cargados": que lista hay en el telefono y el boton para traer la del ultimo catalogo.
+function pintarCargados() {
+  const lista = CAT.lista, of = CAT.oficial[lista];
+  const hay = CAT.datos.articulos.some(a => CAT.precios[lista][a.id] != null);
+  const caja = document.getElementById("catCargados");
+  if (!hay) {
+    caja.innerHTML = `Todavía no hay precios ${lista === "mayorista" ? "mayoristas" : "minoristas"} en este teléfono.<small>Tocá el botón de abajo para cargarlos.</small>`;
+  } else if (igualesAlUltimoCatalogo(lista)) {
+    caja.innerHTML = lista === "mayorista"
+      ? `Los del último catálogo mayorista<small>Catálogo del ${fechaVersion(of.version)}.</small>`
+      : `Los de la web<small>Precios de skinleather.store al ${fechaVersion(of.version)}.</small>`;
+  } else {
+    caja.innerHTML = "Tus últimos precios<small>Los que cargaste o subiste en este teléfono. El próximo aumento parte de estos.</small>";
+  }
+  document.getElementById("catCargar").textContent = lista === "mayorista"
+    ? "Cargar los precios del último catálogo mayorista" : "Cargar los precios de la web";
+  document.getElementById("catClave").hidden = !(lista === "mayorista" && CAT.pedirClave);
 }
 
 function pintarArticulos() {
@@ -1251,7 +1350,7 @@ function pintarArticulos() {
     fila.innerHTML = `
       <img class="art-foto" alt="" loading="lazy">
       <div class="art-texto"><span class="art-nombre"></span><span class="art-detalle"></span></div>
-      <div class="art-campo"><span>$</span><input type="text" inputmode="decimal" placeholder="a consulta"></div>`;
+      <div class="art-campo"><span>$</span><input type="text" inputmode="decimal" placeholder="consultar"></div>`;
     const foto = fila.querySelector(".art-foto");
     if (a.foto) foto.src = a.foto;
     else foto.remove();
@@ -1264,6 +1363,7 @@ function pintarArticulos() {
     input.addEventListener("input", () => {
       CAT.precios[CAT.lista][a.id] = parseNumero(input.value);
       guardarLista(CAT.lista);
+      pintarCargados();
     });
     input.addEventListener("blur", () => { input.value = textoPrecio(CAT.precios[CAT.lista][a.id]); });
     cont.appendChild(fila);
@@ -1277,13 +1377,15 @@ function pintarCatalogo(mensaje) {
     b.setAttribute("aria-pressed", String(b.dataset.lista === lista));
   });
   document.getElementById("catDeshacer").hidden = !CAT.deshacer[lista];
-  document.getElementById("catWeb").hidden = lista !== "minorista";
+  document.getElementById("catSinPreciosAyuda").textContent =
+    `Todos los muebles dicen «${lista === "mayorista" ? "Consultar precio mayorista" : "Consultar precio"}».`;
   const iva = leerJSON("sl_cat_iva") || IVA_INICIAL;
   document.getElementById("catIva").value = iva[lista] != null ? iva[lista] : IVA_INICIAL[lista];
   document.getElementById("btnCatalogo").textContent = `Generar catálogo ${lista}`;
   document.getElementById("btnCompartir").hidden = true;
   document.getElementById("estadoCatalogo").textContent = "";
   pintarArticulos();
+  pintarCargados();
   pintarAviso(mensaje);
 }
 
@@ -1307,8 +1409,8 @@ async function cargarCatalogo() {
   };
   const clave = leerGuardado(CLAVE_CAT);
   if (clave) {
-    try { CAT.oficial.mayorista = await descifrarMayorista(clave); CAT.errorClave = false; }
-    catch (e) { CAT.errorClave = true; }
+    try { CAT.oficial.mayorista = await descifrarMayorista(clave); CAT.errorClave = false; CAT.pedirClave = false; }
+    catch (e) { CAT.errorClave = true; CAT.pedirClave = true; }
   }
   ["mayorista", "minorista"].forEach(lista => {
     const g = leerJSON("sl_cat_" + lista), of = CAT.oficial[lista];
@@ -1403,19 +1505,66 @@ function usarOriginal() {
   const of = CAT.oficial[CAT.lista];
   if (!of) { pintarAviso(); return; }
   cambiarEnBloque({ precios: { ...of.precios }, base: of.version },
-    `Se cargó la lista ${CAT.lista} original del ${fechaVersion(of.version)}.`);
+    `Se cargaron los precios del último catálogo ${CAT.lista} (${fechaVersion(of.version)}). Ahora podés subirlos con el porcentaje.`);
 }
-document.getElementById("catOriginal").addEventListener("click", () => {
-  if (!CAT.datos) return;
-  if (!CAT.oficial[CAT.lista]) { pintarAviso(); return; }
-  if (confirm(`¿Reemplazar todos los precios por la lista ${CAT.lista} original del ${fechaVersion(CAT.oficial[CAT.lista].version)}?`)) usarOriginal();
-});
 document.getElementById("catAviso").addEventListener("click", e => {
   if (e.target.id === "catUsarNueva") usarOriginal();
 });
 
+// Mayorista: los precios del ultimo catalogo (si no hay clave en el telefono, se pide).
+// Minorista: los que hoy muestra la web.
+document.getElementById("catCargar").addEventListener("click", () => {
+  if (!CAT.datos) return;
+  if (CAT.lista === "minorista") { copiarPreciosWeb(); return; }
+  const of = CAT.oficial.mayorista;
+  if (!of) {
+    CAT.pedirClave = true;
+    pintarCargados();
+    document.getElementById("catClaveTexto").focus();
+    return;
+  }
+  if (igualesAlUltimoCatalogo("mayorista")) {
+    pintarAviso(`Ya están cargados los precios del último catálogo (${fechaVersion(of.version)}).`);
+    return;
+  }
+  if (confirm(`¿Reemplazar los precios de abajo por los del último catálogo mayorista (${fechaVersion(of.version)})? Podés deshacerlo.`)) usarOriginal();
+});
+
+document.getElementById("catClaveOk").addEventListener("click", async () => {
+  const campo = document.getElementById("catClaveTexto"), btn = document.getElementById("catClaveOk");
+  const clave = normalizarClave(campo.value);
+  if (!clave) { campo.focus(); return; }
+  btn.disabled = true;
+  try {
+    CAT.oficial.mayorista = await descifrarMayorista(clave);
+    guardar(CLAVE_CAT, clave);
+    CAT.errorClave = false;
+    CAT.pedirClave = false;
+    campo.value = "";
+    CAT.lista = "mayorista";
+    usarOriginal();
+  } catch (e) {
+    avisoCat("Esa clave no abre la lista. Revisá las cuatro palabras (mayúsculas y espacios dan igual).", true);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// Enter en un campo no genera el PDF: aplica el porcentaje, prueba la clave o solo cierra el teclado.
+document.getElementById("formCatalogo").addEventListener("keydown", e => {
+  if (e.key !== "Enter" || e.target.tagName !== "INPUT" || e.target.type === "checkbox") return;
+  e.preventDefault();
+  if (e.target.id === "catPorcentaje") document.getElementById("catAplicar").click();
+  else if (e.target.id === "catClaveTexto") document.getElementById("catClaveOk").click();
+  else e.target.blur();
+});
+
+document.getElementById("catSinPrecios").addEventListener("change", e => {
+  document.getElementById("catDatosPrecio").hidden = e.target.checked;
+});
+
 // Trae los precios minoristas que hoy muestra skinleather.store (son publicos).
-document.getElementById("catWeb").addEventListener("click", async () => {
+async function copiarPreciosWeb() {
   try {
     const res = await fetch("https://firestore.googleapis.com/v1/projects/skinleather-def75/databases/(default)/documents/prices?pageSize=300", { cache: "no-store" });
     if (!res.ok) throw new Error();
@@ -1434,7 +1583,7 @@ document.getElementById("catWeb").addEventListener("click", async () => {
   } catch (e) {
     pintarAviso("No se pudo leer la web. Revisá la conexión.");
   }
-});
+}
 
 function cargarScript(src) {
   return new Promise((ok, mal) => {
@@ -1452,7 +1601,13 @@ function traerBytes(url) {
   });
 }
 
-function textoIntro(mayorista, vigencia, iva) {
+function textoIntro(mayorista, vigencia, iva, sinPrecios) {
+  if (sinPrecios) {
+    return `Cada modelo indica su paleta de cueros y sus terminaciones. Los precios ${mayorista ? "mayoristas " : ""}` +
+      `se cotizan a pedido: consultanos por WhatsApp al +54 9 351 349-9576. Para ver cada modelo en todos sus ` +
+      `cueros y terminaciones, entrá a skinleather.store. Imágenes ilustrativas: el tono del cuero puede variar ` +
+      `según la pantalla y la partida.`;
+  }
   const v = vigencia ? `, vigente a ${vigencia}` : "";
   const i = iva === "sin" ? " (sin IVA)" : iva === "con" ? " (IVA incluido)" : "";
   return `Cada modelo indica su paleta de cueros, sus terminaciones y su precio ${mayorista ? "mayorista " : ""}` +
@@ -1485,11 +1640,12 @@ async function generarCatalogo(lista, opciones) {
 
   // Intro: el parrafo con la vigencia y el IVA.
   const intro = d.textos.intro;
-  envolverTexto(textoIntro(may, opciones.vigencia, opciones.iva), fR, intro.tamano, intro.ancho / MM)
+  envolverTexto(textoIntro(may, opciones.vigencia, opciones.iva, opciones.sinPrecios), fR, intro.tamano, intro.ancho / MM)
     .forEach((l, i) => escribir(intro.pagina, l, intro.x, intro.y + i * intro.interlineado, intro.tamano, fR, intro.color));
 
+  const sinPrecios = !!opciones.sinPrecios;
   d.pies.forEach(p => {
-    const t = `Skin Leather · ${may ? "Catálogo mayorista" : "Catálogo"} ${d.anio}` + (p.corto ? "" : " · Precios en pesos argentinos");
+    const t = `Skin Leather · ${may ? "Catálogo mayorista" : "Catálogo"} ${d.anio}` + (p.corto || sinPrecios ? "" : " · Precios en pesos argentinos");
     escribir(p.pagina, t, p.x, p.y, d.pie.tamano, fR, d.pie.color);
   });
 
@@ -1497,9 +1653,9 @@ async function generarCatalogo(lista, opciones) {
   // estaba en el catalogo original: ese renglon no lleva el importe grande).
   const pr = d.precio;
   d.articulos.forEach(a => {
-    const v = CAT.precios[lista][a.id];
+    const v = sinPrecios ? null : CAT.precios[lista][a.id];
     if (v == null) {
-      escribir(a.pagina, may ? "Precio mayorista a consulta" : "Precio a consulta",
+      escribir(a.pagina, may ? "Consultar precio mayorista" : "Consultar precio",
         a.x, a.y - pr.consulta_sube, pr.etiqueta.tamano, fR, pr.etiqueta.color);
       return;
     }
@@ -1525,8 +1681,9 @@ document.getElementById("formCatalogo").addEventListener("submit", async (e) => 
   document.activeElement && document.activeElement.blur();   // asienta el precio que se estaba escribiendo
 
   const lista = CAT.lista;
+  const sinPrecios = document.getElementById("catSinPrecios").checked;
   const conPrecio = CAT.datos.articulos.filter(a => CAT.precios[lista][a.id] != null).length;
-  if (!conPrecio && !confirm("Ningún artículo tiene precio: el catálogo va a decir «a consulta» en todos. ¿Generarlo igual?")) return;
+  if (!sinPrecios && !conPrecio && !confirm("Ningún artículo tiene precio: el catálogo va a decir «Consultar precio» en todos. ¿Generarlo igual?")) return;
 
   btn.disabled = true;
   estado.style.color = "var(--cafe-medio)";
@@ -1534,10 +1691,11 @@ document.getElementById("formCatalogo").addEventListener("submit", async (e) => 
   try {
     const bytes = await generarCatalogo(lista, {
       vigencia: document.getElementById("catVigencia").value.trim(),
-      iva: document.getElementById("catIva").value
+      iva: document.getElementById("catIva").value,
+      sinPrecios
     });
     const d = new Date();
-    const nombre = `Catalogo ${lista} Skin Leather ${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}.pdf`;
+    const nombre = `Catalogo ${lista} Skin Leather${sinPrecios ? " sin precios" : ""} ${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}.pdf`;
     descargar(bytes, nombre);
     CAT.pdf = new File([bytes], nombre, { type: "application/pdf" });
     compartir.hidden = !(navigator.canShare && navigator.canShare({ files: [CAT.pdf] }));
